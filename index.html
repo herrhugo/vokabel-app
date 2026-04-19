@@ -1,0 +1,3138 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1a1a2e">
+<title>Vocabulario</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-dark: #0f0e17;
+    --bg-card: #1a1a2e;
+    --bg-panel: #16213e;
+    --accent-gold: #f2c94c;
+    --accent-red: #e94560;
+    --accent-green: #2ecc71;
+    --accent-blue: #4fc3f7;
+    --accent-purple: #a78bfa;
+    --text-main: #fffffe;
+    --text-dim: #a7a9be;
+    --border: rgba(255,255,255,0.08);
+    --hp-green: #2ecc71;
+    --hp-yellow: #f2c94c;
+    --hp-red: #e94560;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-main);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse at 20% 50%, rgba(167,139,250,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(79,195,247,0.06) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── SCREENS ── */
+  .screen {
+    display: none;
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    padding: 20px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .screen.active { display: flex; flex-direction: column; }
+
+  /* ── TITLE SCREEN ── */
+  #screen-title {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 24px;
+  }
+
+  .title-logo {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(22px, 7vw, 32px);
+    color: var(--accent-gold);
+    text-shadow: 0 0 30px rgba(242,201,76,0.5), 4px 4px 0 rgba(0,0,0,0.5);
+    line-height: 1.4;
+    letter-spacing: 2px;
+  }
+
+  .title-sub {
+    font-size: 13px;
+    color: var(--text-dim);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .title-mascot {
+    width: 120px;
+    height: 120px;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 14px 32px;
+    border-radius: 12px;
+    border: none;
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s;
+    letter-spacing: 0.5px;
+  }
+  .btn:active { transform: scale(0.96); }
+
+  .btn-primary {
+    background: var(--accent-gold);
+    color: #1a1a2e;
+    box-shadow: 0 4px 0 #b8960a, 0 8px 20px rgba(242,201,76,0.3);
+  }
+  .btn-primary:active { box-shadow: 0 0 0 #b8960a; transform: translateY(4px) scale(0.98); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text-main);
+    border: 2px solid var(--border);
+  }
+  .btn-danger {
+    background: var(--accent-red);
+    color: white;
+    box-shadow: 0 4px 0 #a01f38, 0 8px 20px rgba(233,69,96,0.3);
+  }
+
+  /* ── STARTER SELECTION ── */
+  #screen-starter {
+    gap: 20px;
+  }
+
+  .screen-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    color: var(--accent-gold);
+    text-align: center;
+    line-height: 1.8;
+  }
+
+  .starter-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 10px;
+    flex: 1;
+    align-content: center;
+  }
+
+  .starter-card {
+    background: var(--bg-card);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 14px 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .starter-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.2s;
+    border-radius: 18px;
+  }
+  .starter-card.ignis::before { background: radial-gradient(circle at 50% 50%, rgba(233,69,96,0.15), transparent 70%); }
+  .starter-card.aqua::before { background: radial-gradient(circle at 50% 50%, rgba(79,195,247,0.15), transparent 70%); }
+  .starter-card.volta::before { background: radial-gradient(circle at 50% 50%, rgba(242,201,76,0.15), transparent 70%); }
+  .starter-card.drako::before { background: radial-gradient(circle at 50% 50%, rgba(167,139,250,0.15), transparent 70%); }
+  .starter-card.sylva::before { background: radial-gradient(circle at 50% 50%, rgba(46,204,113,0.15), transparent 70%); }
+  .starter-card.luma::before { background: radial-gradient(circle at 50% 50%, rgba(255,182,193,0.2), transparent 70%); }
+  .starter-card.petra::before { background: radial-gradient(circle at 50% 50%, rgba(149,165,166,0.15), transparent 70%); }
+  .starter-card.glacia::before { background: radial-gradient(circle at 50% 50%, rgba(144,224,239,0.15), transparent 70%); }
+  .starter-card:hover::before, .starter-card.selected::before { opacity: 1; }
+  .starter-card.selected { border-color: var(--accent-gold); transform: scale(1.03); }
+  .starter-card.ignis.selected { border-color: #e94560; }
+  .starter-card.aqua.selected { border-color: #4fc3f7; }
+  .starter-card.volta.selected { border-color: #f2c94c; }
+  .starter-card.drako.selected { border-color: #a78bfa; }
+  .starter-card.sylva.selected { border-color: #2ecc71; }
+  .starter-card.luma.selected { border-color: #ffb6c1; }
+  .starter-card.petra.selected { border-color: #95a5a6; }
+  .starter-card.glacia.selected { border-color: #90e0ef; }
+
+  .starter-svg { width: 56px; height: 56px; margin: 0 auto 8px; }
+  .starter-name {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    margin-bottom: 4px;
+    color: var(--accent-gold);
+  }
+  .starter-type {
+    font-size: 9px;
+    color: var(--text-dim);
+  }
+
+  /* ── WORLD MAP ── */
+  #screen-map {
+    gap: 16px;
+  }
+
+  .map-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+  }
+
+  .map-companion {
+    width: 48px;
+    height: 48px;
+  }
+
+  .map-stats {
+    flex: 1;
+    padding: 0 12px;
+  }
+
+  .companion-name {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--accent-gold);
+    margin-bottom: 6px;
+  }
+
+  .xp-bar-wrap {
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+    height: 8px;
+    overflow: hidden;
+  }
+  .xp-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue));
+    border-radius: 4px;
+    transition: width 0.5s ease;
+  }
+  .xp-label {
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+
+  .pokedex-btn {
+    background: var(--accent-red);
+    border: none;
+    border-radius: 12px;
+    padding: 10px 14px;
+    cursor: pointer;
+    color: white;
+    font-size: 10px;
+    font-family: 'Press Start 2P', monospace;
+    line-height: 1.6;
+    text-align: center;
+  }
+
+  .map-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--text-dim);
+    text-align: center;
+  }
+
+  .arena-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    flex: 1;
+  }
+
+  .arena-card {
+    background: var(--bg-card);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 16px 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .arena-card.locked {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  .arena-card.cleared {
+    border-color: var(--accent-green);
+  }
+  .arena-card.cleared::after {
+    content: '✓';
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    font-size: 14px;
+    color: var(--accent-green);
+    font-weight: 900;
+  }
+  .arena-card:not(.locked):hover {
+    transform: translateY(-2px);
+    border-color: var(--accent-gold);
+  }
+
+  .arena-emoji { font-size: 32px; margin-bottom: 8px; display: block; }
+  .arena-name {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--text-main);
+    line-height: 1.6;
+    margin-bottom: 4px;
+  }
+  .arena-progress {
+    font-size: 10px;
+    color: var(--text-dim);
+  }
+
+  /* ── BATTLE SCREEN ── */
+  #screen-battle {
+    gap: 0;
+    padding: 0;
+    background: var(--bg-dark);
+  }
+
+  .battle-arena-bg {
+    height: 220px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(180deg, #0d1b2a 0%, #1b2838 60%, #2d3561 100%);
+    flex-shrink: 0;
+  }
+
+  .battle-ground {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    background: linear-gradient(180deg, #3d5a3e, #2d4a2e);
+    border-radius: 50% 50% 0 0 / 30px 30px 0 0;
+  }
+
+  .battle-enemy-platform {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    width: 100px;
+    height: 30px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 50%;
+  }
+
+  .battle-player-platform {
+    position: absolute;
+    bottom: 20px;
+    right: 40px;
+    width: 100px;
+    height: 30px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 50%;
+  }
+
+  .battle-enemy-sprite {
+    position: absolute;
+    top: 0px;
+    left: 20px;
+    width: 90px;
+    height: 90px;
+  }
+
+  .battle-player-sprite {
+    position: absolute;
+    bottom: 14px;
+    right: 30px;
+    width: 80px;
+    height: 80px;
+  }
+
+  .battle-enemy-info {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 12px;
+    min-width: 150px;
+  }
+
+  .battle-player-info {
+    position: absolute;
+    bottom: 60px;
+    left: 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 12px;
+    min-width: 150px;
+  }
+
+  .battle-name {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    margin-bottom: 6px;
+  }
+
+  .hp-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .hp-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--text-dim);
+    flex-shrink: 0;
+  }
+  .hp-bar-bg {
+    flex: 1;
+    background: rgba(255,255,255,0.15);
+    border-radius: 3px;
+    height: 8px;
+    overflow: hidden;
+  }
+  .hp-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.4s ease, background 0.4s ease;
+  }
+
+  .battle-bottom {
+    flex: 1;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .battle-message {
+    background: var(--bg-card);
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.5;
+    min-height: 60px;
+    position: relative;
+  }
+
+  .word-display {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 13px;
+    color: var(--accent-gold);
+    text-align: center;
+    padding: 8px;
+  }
+
+  .speaker-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 4px 8px;
+    border-radius: 8px;
+    transition: transform 0.15s, opacity 0.15s;
+    opacity: 0.7;
+    vertical-align: middle;
+  }
+  .speaker-btn:hover { opacity: 1; transform: scale(1.15); }
+  .speaker-btn.speaking { opacity: 1; animation: speakerPulse 0.6s ease infinite alternate; }
+  @keyframes speakerPulse {
+    from { transform: scale(1); }
+    to { transform: scale(1.2); }
+  }
+  .speaker-btn.no-speech { opacity: 0.25; cursor: not-allowed; }
+
+  .direction-badge {
+    font-size: 10px;
+    color: var(--text-dim);
+    text-align: center;
+    margin-top: -8px;
+  }
+
+  .choices-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .choice-btn {
+    background: var(--bg-panel);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 10px;
+    color: var(--text-main);
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+    line-height: 1.3;
+  }
+  .choice-btn:hover { border-color: var(--accent-blue); background: rgba(79,195,247,0.08); }
+  .choice-btn.correct { border-color: var(--accent-green); background: rgba(46,204,113,0.15); color: var(--accent-green); }
+  .choice-btn.wrong { border-color: var(--accent-red); background: rgba(233,69,96,0.15); color: var(--accent-red); }
+  .choice-btn:disabled { cursor: not-allowed; }
+
+  /* ── POKÉDEX ── */
+  #screen-pokedex {
+    gap: 16px;
+  }
+
+  .pokedex-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .back-btn {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 12px;
+    color: var(--text-main);
+    cursor: pointer;
+    font-size: 18px;
+  }
+
+  .pokedex-count {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--text-dim);
+    margin-left: auto;
+  }
+
+  .pokedex-filter {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+  .pokedex-filter::-webkit-scrollbar { display: none; }
+
+  .filter-chip {
+    flex-shrink: 0;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    color: var(--text-dim);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .filter-chip.active {
+    background: var(--accent-gold);
+    color: #1a1a2e;
+    border-color: var(--accent-gold);
+  }
+
+  .pokedex-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  .vocab-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px;
+    animation: popIn 0.3s ease;
+  }
+  @keyframes popIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .vocab-es {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--accent-gold);
+    margin-bottom: 2px;
+  }
+  .vocab-de {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+  }
+  .vocab-category {
+    font-size: 10px;
+    color: var(--text-dim);
+    background: rgba(255,255,255,0.06);
+    padding: 2px 8px;
+    border-radius: 6px;
+    display: inline-block;
+  }
+
+  /* ── RESULT SCREEN ── */
+  #screen-result {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 24px;
+  }
+
+  .result-icon { font-size: 64px; animation: bounce 0.5s ease; }
+  @keyframes bounce {
+    0% { transform: scale(0); }
+    60% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+
+  .result-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+  .result-subtitle { font-size: 14px; color: var(--text-dim); line-height: 1.6; }
+
+  .evolution-box {
+    background: var(--bg-card);
+    border: 2px solid var(--accent-gold);
+    border-radius: 20px;
+    padding: 24px;
+    width: 100%;
+  }
+  .evolution-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--accent-gold);
+    margin-bottom: 16px;
+  }
+  .evolution-sprites {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  .evo-sprite { width: 70px; height: 70px; }
+  .evo-arrow { font-size: 24px; color: var(--accent-gold); }
+
+  /* ── ATTACK ANIMATION ── */
+  .attack-flash {
+    animation: attackFlash 0.4s ease;
+  }
+  @keyframes attackFlash {
+    0% { filter: brightness(1); }
+    30% { filter: brightness(3) saturate(0); }
+    60% { filter: brightness(0.5); }
+    100% { filter: brightness(1); }
+  }
+
+  .shake {
+    animation: shake 0.4s ease;
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-5px); }
+    80% { transform: translateX(5px); }
+  }
+
+  /* ── PROGRESS DOTS ── */
+  .progress-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+  }
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: background 0.3s;
+  }
+  .dot.filled { background: var(--accent-gold); }
+  .dot.correct { background: var(--accent-green); }
+  .dot.wrong { background: var(--accent-red); }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  /* ── LEVEL BADGE ── */
+  .level-badge {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    background: var(--accent-purple);
+    padding: 3px 7px;
+    border-radius: 6px;
+    display: inline-block;
+    margin-bottom: 4px;
+  }
+
+  .stars { color: var(--accent-gold); font-size: 18px; letter-spacing: 2px; }
+
+  /* ── CAUGHT BANNER ── */
+  .caught-banner {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100px);
+    background: var(--accent-gold);
+    color: #1a1a2e;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    padding: 12px 20px;
+    border-radius: 12px;
+    z-index: 100;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-align: center;
+    line-height: 1.8;
+    white-space: nowrap;
+  }
+  .caught-banner.show { transform: translateX(-50%) translateY(0); }
+
+  /* ── LANGUAGE SELECTION ── */
+  .lang-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    flex: 1;
+    align-content: center;
+    max-width: 320px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .lang-card {
+    background: var(--bg-card);
+    border: 2px solid var(--border);
+    border-radius: 18px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .lang-card:hover { border-color: var(--accent-gold); transform: translateY(-2px); }
+  .lang-card.selected { border-color: var(--accent-gold); background: rgba(242,201,76,0.08); }
+  .lang-card.disabled { opacity: 0.35; cursor: not-allowed; }
+  .lang-flag { font-size: 36px; }
+  .lang-info { flex: 1; }
+  .lang-name { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--text-main); margin-bottom: 4px; }
+  .lang-sub { font-size: 11px; color: var(--text-dim); }
+  .lang-badge { font-size: 10px; background: var(--accent-green); color: #1a1a2e; padding: 2px 8px; border-radius: 6px; font-weight: 800; }
+
+  /* ── TEAM DROPDOWN ── */
+  .team-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 10px;
+    z-index: 50;
+    display: none;
+    margin-top: 6px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  }
+  .team-dropdown.open { display: block; }
+
+  .team-entry {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .team-entry:hover { background: rgba(255,255,255,0.06); }
+  .team-entry.active-lang { background: rgba(242,201,76,0.1); border: 1px solid rgba(242,201,76,0.3); }
+  .team-entry-sprite { width: 36px; height: 36px; flex-shrink: 0; }
+  .team-entry-info { flex: 1; }
+  .team-entry-name { font-family: 'Press Start 2P', monospace; font-size: 7px; color: var(--accent-gold); }
+  .team-entry-lang { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+  .team-entry-add {
+    border: 2px dashed var(--border);
+    color: var(--text-dim);
+    font-size: 13px;
+    justify-content: center;
+    font-weight: 700;
+  }
+
+  .map-header { position: relative; }
+</style>
+</head>
+<body>
+
+<!-- CAUGHT BANNER -->
+<div class="caught-banner" id="caughtBanner">🎉 WORT GEFANGEN!</div>
+
+<!-- ═══════════════════════════════ TITLE SCREEN ═══════════════════════════════ -->
+<div class="screen active" id="screen-title">
+  <svg class="title-mascot" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="60" cy="60" r="50" fill="#1a1a2e" stroke="#f2c94c" stroke-width="3"/>
+    <circle cx="60" cy="60" r="38" fill="#16213e"/>
+    <text x="60" y="72" text-anchor="middle" font-size="38" font-family="serif">📖</text>
+    <circle cx="82" cy="35" r="8" fill="#f2c94c" opacity="0.9"/>
+    <text x="82" y="39" text-anchor="middle" font-size="10" font-family="sans-serif" fill="#1a1a2e" font-weight="bold">ES</text>
+    <circle cx="38" cy="38" r="6" fill="#4fc3f7" opacity="0.8"/>
+    <text x="38" y="42" text-anchor="middle" font-size="8" font-family="sans-serif" fill="#1a1a2e" font-weight="bold">DE</text>
+  </svg>
+  <div class="title-logo">VOCABULARIO</div>
+  <div class="title-sub">Sprachen · Abenteuer</div>
+  <button class="btn btn-primary" onclick="showScreen('language')" style="width:100%;max-width:280px">▶ SPIELEN</button>
+  <button class="btn btn-secondary" onclick="showPokedex()" style="width:100%;max-width:280px;margin-top:-8px">📖 Wörter-Dex</button>
+  <p style="font-size:11px;color:var(--text-dim);margin-top:8px">Speichere diese Seite auf deinem Startbildschirm<br>für das volle App-Erlebnis</p>
+</div>
+
+<!-- ═══════════════════════════════ LANGUAGE SELECTION ═══════════════════════════════ -->
+<div class="screen" id="screen-language">
+  <div class="screen-title">WÄHLE DEINE<br>SPRACHE</div>
+  <p style="text-align:center;color:var(--text-dim);font-size:13px;margin-top:-8px">Jede Sprache hat einen eigenen Starter und Fortschritt.</p>
+
+  <div class="lang-grid">
+    <div class="lang-card" id="langcard-es" onclick="selectLanguage('es')">
+      <span class="lang-flag">🇪🇸</span>
+      <div class="lang-info">
+        <div class="lang-name">SPANISCH</div>
+        <div class="lang-sub">Español</div>
+      </div>
+      <span class="lang-badge" id="langbadge-es" style="display:none">Aktiv</span>
+    </div>
+    <div class="lang-card" id="langcard-fr" onclick="selectLanguage('fr')">
+      <span class="lang-flag">🇫🇷</span>
+      <div class="lang-info">
+        <div class="lang-name">FRANZÖSISCH</div>
+        <div class="lang-sub">Français</div>
+      </div>
+      <span class="lang-badge" id="langbadge-fr" style="display:none">Aktiv</span>
+    </div>
+    <div class="lang-card" id="langcard-nl" onclick="selectLanguage('nl')">
+      <span class="lang-flag">🇳🇱</span>
+      <div class="lang-info">
+        <div class="lang-name">NIEDERLÄNDISCH</div>
+        <div class="lang-sub">Nederlands</div>
+      </div>
+      <span class="lang-badge" id="langbadge-nl" style="display:none">Aktiv</span>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:12px;margin-top:8px">
+    <button class="btn btn-secondary" onclick="showScreen('title')" style="flex:1">← Zurück</button>
+    <button class="btn btn-primary" id="btn-confirm-lang" onclick="confirmLanguage()" style="flex:2" disabled>Weiter →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ STARTER SELECTION ═══════════════════════════════ -->
+<div class="screen" id="screen-starter">
+  <div class="screen-title" id="starter-screen-title">WÄHLE DEINEN<br>BEGLEITER</div>
+  <p style="text-align:center;color:var(--text-dim);font-size:12px" id="starter-screen-sub">Dein treuer Gefährte auf dieser Sprachreise.</p>
+
+  <div class="starter-grid">
+    <div class="starter-card ignis" onclick="selectStarter('ignis')" id="card-ignis">
+      <svg class="starter-svg" viewBox="0 0 80 80" id="svg-ignis-preview"></svg>
+      <div class="starter-name">IGNIS</div>
+      <div class="starter-type">🔥 Feuer</div>
+    </div>
+    <div class="starter-card aqua" onclick="selectStarter('aqua')" id="card-aqua">
+      <svg class="starter-svg" viewBox="0 0 80 80" id="svg-aqua-preview"></svg>
+      <div class="starter-name">AQUA</div>
+      <div class="starter-type">💧 Wasser</div>
+    </div>
+    <div class="starter-card volta" onclick="selectStarter('volta')" id="card-volta">
+      <svg class="starter-svg" viewBox="0 0 80 80" id="svg-volta-preview"></svg>
+      <div class="starter-name">VOLTA</div>
+      <div class="starter-type">⚡ Elektro</div>
+    </div>
+    <div class="starter-card drako" onclick="selectStarter('drako')" id="card-drako">
+      <svg class="starter-svg" viewBox="0 0 80 80" id="svg-drako-preview"></svg>
+      <div class="starter-name">DRAKO</div>
+      <div class="starter-type">🐉 Drache</div>
+    </div>
+    <div class="starter-card sylva" onclick="selectStarter('sylva')" id="card-sylva">
+      <svg class="starter-svg" viewBox="0 0 80 80" id="svg-sylva-preview"></svg>
+      <div class="starter-name">SYLVA</div>
+      <div class="starter-type">🌿 Pflanze</div>
+    </div>
+    <div class="starter-card luma" onclick="selectStarter('luma')" id="card-luma">
+      <svg class="starter-svg" viewBox="0 0 80 80" id="svg-luma-preview"></svg>
+      <div class="starter-name">LUMA</div>
+      <div class="starter-type">🌸 Fee</div>
+    </div>
+    <div class="starter-card petra" onclick="selectStarter('petra')" id="card-petra">
+      <svg class="starter-svg" viewBox="0 0 80 80" id="svg-petra-preview"></svg>
+      <div class="starter-name">PETRA</div>
+      <div class="starter-type">🪨 Stein</div>
+    </div>
+    <div class="starter-card glacia" onclick="selectStarter('glacia')" id="card-glacia">
+      <svg class="starter-svg" viewBox="0 0 80 80" id="svg-glacia-preview"></svg>
+      <div class="starter-name">GLACIA</div>
+      <div class="starter-type">🧊 Eis</div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:12px;margin-top:8px">
+    <button class="btn btn-secondary" onclick="showScreen('language')" style="flex:1">← Zurück</button>
+    <button class="btn btn-primary" id="btn-confirm-starter" onclick="confirmStarter()" style="flex:2" disabled>Wählen!</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ WORLD MAP ═══════════════════════════════ -->
+<div class="screen" id="screen-map">
+  <div class="map-header" id="map-header" onclick="toggleTeamDropdown()">
+    <svg class="map-companion" viewBox="0 0 48 48" id="svg-companion-map" style="cursor:pointer"></svg>
+    <div class="map-stats">
+      <div class="companion-name" id="companion-name-map">-</div>
+      <div class="level-badge" id="companion-level-map">LV 1</div>
+      <div class="xp-bar-wrap">
+        <div class="xp-bar" id="xp-bar" style="width:0%"></div>
+      </div>
+      <div class="xp-label" id="xp-label">0 / 100 XP</div>
+    </div>
+    <button class="pokedex-btn" onclick="event.stopPropagation();showPokedex()">WÖRTER<br>DEX</button>
+
+    <div class="team-dropdown" id="team-dropdown" onclick="event.stopPropagation()">
+      <!-- filled by JS -->
+    </div>
+  </div>
+
+  <div class="map-title" id="map-title">— ARENEN DER WELT —</div>
+
+  <div class="arena-grid" id="arena-grid"></div>
+</div>
+
+<!-- ═══════════════════════════════ BATTLE SCREEN ═══════════════════════════════ -->
+<div class="screen" id="screen-battle">
+  <div class="battle-arena-bg">
+    <div class="battle-ground"></div>
+    <div class="battle-enemy-platform"></div>
+    <div class="battle-player-platform"></div>
+    <svg class="battle-enemy-sprite" viewBox="0 0 90 90" id="svg-enemy"></svg>
+    <svg class="battle-player-sprite" viewBox="0 0 80 80" id="svg-player-battle"></svg>
+
+    <div class="battle-enemy-info">
+      <div class="battle-name" id="battle-enemy-name">ARENA</div>
+      <div class="hp-bar-wrap">
+        <span class="hp-label">HP</span>
+        <div class="hp-bar-bg"><div class="hp-bar-fill" id="enemy-hp-bar" style="width:100%;background:var(--hp-green)"></div></div>
+      </div>
+    </div>
+
+    <div class="battle-player-info">
+      <div class="battle-name" id="battle-player-name">DU</div>
+      <div class="hp-bar-wrap">
+        <span class="hp-label">HP</span>
+        <div class="hp-bar-bg"><div class="hp-bar-fill" id="player-hp-bar" style="width:100%;background:var(--hp-green)"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="battle-bottom">
+    <div class="progress-dots" id="progress-dots"></div>
+
+    <div class="battle-message">
+      <div style="display:flex;align-items:center;justify-content:center;gap:8px">
+        <div class="word-display" id="battle-word" style="padding:8px 4px"></div>
+        <button class="speaker-btn" id="speaker-btn" onclick="speakCurrentWord()" title="Aussprache anhören">🔊</button>
+      </div>
+      <div class="direction-badge" id="battle-direction"></div>
+    </div>
+
+    <div class="choices-grid" id="choices-grid"></div>
+
+    <button class="btn btn-secondary" onclick="exitBattle()" style="font-size:12px;padding:10px">✕ Aufgeben</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ POKÉDEX ═══════════════════════════════ -->
+<div class="screen" id="screen-pokedex">
+  <div class="pokedex-header">
+    <button class="back-btn" onclick="closePokedex()">←</button>
+    <div class="screen-title" style="font-size:9px">WÖRTER-DEX</div>
+    <div class="pokedex-count" id="pokedex-count">0 / 0</div>
+  </div>
+
+  <div class="pokedex-filter" id="pokedex-filter"></div>
+
+  <div class="pokedex-grid" id="pokedex-grid"></div>
+</div>
+
+<!-- ═══════════════════════════════ RESULT SCREEN ═══════════════════════════════ -->
+<div class="screen" id="screen-result">
+  <div class="result-icon" id="result-icon">🏆</div>
+  <div class="result-title" id="result-title">SIEG!</div>
+  <div class="stars" id="result-stars">★★★</div>
+  <div class="result-subtitle" id="result-subtitle"></div>
+
+  <div class="evolution-box" id="evolution-box" style="display:none">
+    <div class="evolution-label">✨ ENTWICKLUNG!</div>
+    <div class="evolution-sprites">
+      <svg class="evo-sprite" viewBox="0 0 70 70" id="evo-before"></svg>
+      <div class="evo-arrow">→</div>
+      <svg class="evo-sprite" viewBox="0 0 70 70" id="evo-after"></svg>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px;width:100%">
+    <button class="btn btn-primary" onclick="showScreen('map')" style="width:100%">🗺 Zur Weltkarte</button>
+    <button class="btn btn-secondary" onclick="showPokedex()" style="width:100%">📖 Wörter-Dex</button>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════════
+// SVG SPRITE DEFINITIONS
+// ════════════════════════════════════════════════════════════
+
+const SPRITES = {
+  ignis: {
+    1: `
+      <circle cx="40" cy="40" r="28" fill="#e94560" opacity="0.2"/>
+      <ellipse cx="40" cy="52" rx="14" ry="8" fill="#b83040"/>
+      <circle cx="40" cy="36" r="18" fill="#e94560"/>
+      <circle cx="40" cy="36" r="14" fill="#ff7a8a"/>
+      <ellipse cx="33" cy="32" rx="4" ry="5" fill="white"/>
+      <circle cx="33" cy="33" r="2.5" fill="#1a1a2e"/>
+      <ellipse cx="47" cy="32" rx="4" ry="5" fill="white"/>
+      <circle cx="47" cy="33" r="2.5" fill="#1a1a2e"/>
+      <path d="M34 42 Q40 46 46 42" stroke="#b83040" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M28 20 Q32 12 30 6 Q36 14 34 20" fill="#f2c94c"/>
+      <path d="M52 22 Q55 14 52 8 Q58 16 56 22" fill="#f2c94c"/>
+      <path d="M40 18 Q42 10 40 4 Q44 12 42 18" fill="#ff9f43"/>
+    `,
+    2: `
+      <circle cx="40" cy="40" r="30" fill="#e94560" opacity="0.15"/>
+      <ellipse cx="40" cy="56" rx="18" ry="10" fill="#b83040"/>
+      <circle cx="40" cy="36" r="22" fill="#e94560"/>
+      <circle cx="40" cy="36" r="17" fill="#ff7a8a"/>
+      <ellipse cx="32" cy="31" rx="5" ry="6" fill="white"/>
+      <circle cx="32" cy="32" r="3" fill="#1a1a2e"/>
+      <ellipse cx="48" cy="31" rx="5" ry="6" fill="white"/>
+      <circle cx="48" cy="32" r="3" fill="#1a1a2e"/>
+      <path d="M33 43 Q40 48 47 43" stroke="#b83040" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <path d="M22 18 Q26 8 24 2 Q32 12 28 20" fill="#f2c94c"/>
+      <path d="M58 20 Q62 10 58 4 Q66 14 62 20" fill="#f2c94c"/>
+      <path d="M40 16 Q43 6 40 0 Q46 10 44 16" fill="#ff9f43"/>
+      <circle cx="26" cy="40" r="6" fill="#ff7a8a" opacity="0.7"/>
+      <circle cx="54" cy="40" r="6" fill="#ff7a8a" opacity="0.7"/>
+    `,
+    3: `
+      <circle cx="40" cy="40" r="34" fill="#e94560" opacity="0.12"/>
+      <ellipse cx="40" cy="60" rx="22" ry="12" fill="#8b1a2e"/>
+      <circle cx="40" cy="34" r="26" fill="#c0392b"/>
+      <circle cx="40" cy="34" r="20" fill="#e94560"/>
+      <circle cx="40" cy="34" r="16" fill="#ff6b81"/>
+      <ellipse cx="31" cy="29" rx="6" ry="7" fill="white"/>
+      <circle cx="31" cy="30" r="3.5" fill="#1a1a2e"/>
+      <circle cx="30" cy="29" r="1" fill="white"/>
+      <ellipse cx="49" cy="29" rx="6" ry="7" fill="white"/>
+      <circle cx="49" cy="30" r="3.5" fill="#1a1a2e"/>
+      <circle cx="48" cy="29" r="1" fill="white"/>
+      <path d="M32 44 Q40 50 48 44" stroke="#8b1a2e" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M16 14 Q22 2 18 -4 Q28 10 22 18" fill="#f2c94c"/>
+      <path d="M64 16 Q70 4 66 -2 Q76 12 68 20" fill="#f2c94c"/>
+      <path d="M40 10 Q44 -2 40 -8 Q48 6 46 12" fill="#ff9f43"/>
+      <path d="M24 8 Q28 0 26 -4 Q32 6 28 10" fill="#ff6b35"/>
+      <path d="M56 10 Q60 2 58 -2 Q64 8 60 12" fill="#ff6b35"/>
+      <ellipse cx="22" cy="38" rx="8" ry="6" fill="#ff6b81" opacity="0.6"/>
+      <ellipse cx="58" cy="38" rx="8" ry="6" fill="#ff6b81" opacity="0.6"/>
+    `
+  },
+  aqua: {
+    1: `
+      <circle cx="40" cy="40" r="28" fill="#4fc3f7" opacity="0.15"/>
+      <ellipse cx="40" cy="52" rx="14" ry="8" fill="#0277bd"/>
+      <circle cx="40" cy="36" r="18" fill="#29b6f6"/>
+      <circle cx="40" cy="36" r="14" fill="#81d4fa"/>
+      <ellipse cx="33" cy="32" rx="4" ry="5" fill="white"/>
+      <circle cx="33" cy="33" r="2.5" fill="#1a1a2e"/>
+      <ellipse cx="47" cy="32" rx="4" ry="5" fill="white"/>
+      <circle cx="47" cy="33" r="2.5" fill="#1a1a2e"/>
+      <path d="M34 42 Q40 46 46 42" stroke="#0277bd" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M30 18 Q28 10 32 6 Q30 14 36 16" fill="#4fc3f7" opacity="0.8"/>
+      <path d="M50 18 Q52 10 48 6 Q50 14 44 16" fill="#4fc3f7" opacity="0.8"/>
+      <ellipse cx="40" cy="44" rx="6" ry="3" fill="#29b6f6" opacity="0.5"/>
+    `,
+    2: `
+      <circle cx="40" cy="40" r="30" fill="#4fc3f7" opacity="0.12"/>
+      <ellipse cx="40" cy="56" rx="18" ry="10" fill="#0277bd"/>
+      <circle cx="40" cy="36" r="22" fill="#0288d1"/>
+      <circle cx="40" cy="36" r="17" fill="#29b6f6"/>
+      <circle cx="40" cy="36" r="13" fill="#81d4fa"/>
+      <ellipse cx="32" cy="31" rx="5" ry="6" fill="white"/>
+      <circle cx="32" cy="32" r="3" fill="#1a1a2e"/>
+      <ellipse cx="48" cy="31" rx="5" ry="6" fill="white"/>
+      <circle cx="48" cy="32" r="3" fill="#1a1a2e"/>
+      <path d="M33 43 Q40 48 47 43" stroke="#0277bd" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <path d="M24 14 Q20 6 24 2 Q22 10 30 12" fill="#4fc3f7"/>
+      <path d="M56 14 Q60 6 56 2 Q58 10 50 12" fill="#4fc3f7"/>
+      <path d="M40 12 Q36 4 40 0 Q44 4 40 10" fill="#81d4fa"/>
+      <ellipse cx="25" cy="44" rx="7" ry="4" fill="#81d4fa" opacity="0.5"/>
+      <ellipse cx="55" cy="44" rx="7" ry="4" fill="#81d4fa" opacity="0.5"/>
+    `,
+    3: `
+      <circle cx="40" cy="40" r="34" fill="#4fc3f7" opacity="0.1"/>
+      <ellipse cx="40" cy="60" rx="22" ry="12" fill="#01579b"/>
+      <circle cx="40" cy="34" r="26" fill="#0277bd"/>
+      <circle cx="40" cy="34" r="20" fill="#0288d1"/>
+      <circle cx="40" cy="34" r="16" fill="#29b6f6"/>
+      <circle cx="40" cy="34" r="12" fill="#81d4fa"/>
+      <ellipse cx="31" cy="29" rx="6" ry="7" fill="white"/>
+      <circle cx="31" cy="30" r="3.5" fill="#1a1a2e"/>
+      <circle cx="30" cy="29" r="1" fill="white"/>
+      <ellipse cx="49" cy="29" rx="6" ry="7" fill="white"/>
+      <circle cx="49" cy="30" r="3.5" fill="#1a1a2e"/>
+      <circle cx="48" cy="29" r="1" fill="white"/>
+      <path d="M32 44 Q40 50 48 44" stroke="#01579b" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M16 12 Q12 2 18 -2 Q14 10 24 12" fill="#4fc3f7"/>
+      <path d="M64 12 Q68 2 62 -2 Q66 10 56 12" fill="#4fc3f7"/>
+      <path d="M40 8 Q34 -2 40 -6 Q46 -2 40 6" fill="#81d4fa"/>
+      <path d="M26 4 Q22 -4 26 -8 Q24 2 32 4" fill="#29b6f6"/>
+      <path d="M54 4 Q58 -4 54 -8 Q56 2 48 4" fill="#29b6f6"/>
+      <ellipse cx="20" cy="38" rx="9" ry="6" fill="#29b6f6" opacity="0.5"/>
+      <ellipse cx="60" cy="38" rx="9" ry="6" fill="#29b6f6" opacity="0.5"/>
+    `
+  },
+
+  // ── VOLTA (Elektro / Gelb) ────────────────────────────────
+  volta: {
+    1: `
+      <ellipse cx="40" cy="52" rx="12" ry="7" fill="#b8960a"/>
+      <circle cx="40" cy="36" r="18" fill="#f2c94c"/>
+      <circle cx="40" cy="36" r="13" fill="#ffeaa7"/>
+      <ellipse cx="33" cy="32" rx="4" ry="5" fill="white"/>
+      <circle cx="33" cy="33" r="2.5" fill="#1a1a2e"/>
+      <ellipse cx="47" cy="32" rx="4" ry="5" fill="white"/>
+      <circle cx="47" cy="33" r="2.5" fill="#1a1a2e"/>
+      <path d="M35 42 Q40 45 45 42" stroke="#b8960a" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <polygon points="36,8 32,20 38,18 34,30 46,14 40,16 44,4" fill="#f2c94c" stroke="#b8960a" stroke-width="1"/>
+      <circle cx="26" cy="30" r="4" fill="#f2c94c" opacity="0.6"/>
+      <circle cx="54" cy="30" r="4" fill="#f2c94c" opacity="0.6"/>
+    `,
+    2: `
+      <ellipse cx="40" cy="56" rx="16" ry="9" fill="#b8960a"/>
+      <circle cx="40" cy="36" r="22" fill="#f2c94c"/>
+      <circle cx="40" cy="36" r="16" fill="#ffeaa7"/>
+      <ellipse cx="32" cy="31" rx="5" ry="6" fill="white"/>
+      <circle cx="32" cy="32" r="3" fill="#1a1a2e"/>
+      <ellipse cx="48" cy="31" rx="5" ry="6" fill="white"/>
+      <circle cx="48" cy="32" r="3" fill="#1a1a2e"/>
+      <path d="M33 43 Q40 48 47 43" stroke="#b8960a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <polygon points="34,4 28,18 36,16 30,32 48,12 40,15 46,0" fill="#f2c94c" stroke="#b8960a" stroke-width="1.5"/>
+      <polygon points="50,6 46,16 52,14 48,26 60,10 54,13 58,2" fill="#f2c94c" stroke="#b8960a" stroke-width="1"/>
+      <circle cx="22" cy="34" r="6" fill="#f2c94c" opacity="0.5"/>
+      <circle cx="58" cy="34" r="6" fill="#f2c94c" opacity="0.5"/>
+    `,
+    3: `
+      <ellipse cx="40" cy="60" rx="20" ry="11" fill="#8a6e00"/>
+      <circle cx="40" cy="34" r="26" fill="#d4a017"/>
+      <circle cx="40" cy="34" r="20" fill="#f2c94c"/>
+      <circle cx="40" cy="34" r="14" fill="#ffeaa7"/>
+      <ellipse cx="31" cy="29" rx="6" ry="7" fill="white"/>
+      <circle cx="31" cy="30" r="3.5" fill="#1a1a2e"/>
+      <circle cx="30" cy="29" r="1" fill="white"/>
+      <ellipse cx="49" cy="29" rx="6" ry="7" fill="white"/>
+      <circle cx="49" cy="30" r="3.5" fill="#1a1a2e"/>
+      <circle cx="48" cy="29" r="1" fill="white"/>
+      <path d="M32 44 Q40 50 48 44" stroke="#8a6e00" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <polygon points="36,0 28,16 38,13 30,30 52,8 42,12 48,-2" fill="#f2c94c" stroke="#8a6e00" stroke-width="1.5"/>
+      <polygon points="52,2 46,14 54,12 48,26 64,6 56,10 60,-2" fill="#ffeaa7" stroke="#b8960a" stroke-width="1"/>
+      <polygon points="20,4 16,14 22,12 18,24 32,8 24,11 26,-1" fill="#ffeaa7" stroke="#b8960a" stroke-width="1"/>
+      <ellipse cx="18" cy="38" rx="9" ry="6" fill="#f2c94c" opacity="0.5"/>
+      <ellipse cx="62" cy="38" rx="9" ry="6" fill="#f2c94c" opacity="0.5"/>
+    `
+  },
+
+  // ── DRAKO (Drache / Lila) ─────────────────────────────────
+  drako: {
+    1: `
+      <ellipse cx="40" cy="52" rx="12" ry="7" fill="#6d28d9"/>
+      <circle cx="40" cy="36" r="18" fill="#7c3aed"/>
+      <circle cx="40" cy="36" r="13" fill="#a78bfa"/>
+      <ellipse cx="33" cy="32" rx="4" ry="5" fill="white"/>
+      <circle cx="33" cy="33" r="2.5" fill="#1a1a2e"/>
+      <ellipse cx="47" cy="32" rx="4" ry="5" fill="white"/>
+      <circle cx="47" cy="33" r="2.5" fill="#1a1a2e"/>
+      <path d="M35 42 Q40 46 45 42" stroke="#6d28d9" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M28 22 Q22 12 26 6 Q28 16 34 18" fill="#7c3aed"/>
+      <path d="M52 22 Q58 12 54 6 Q52 16 46 18" fill="#7c3aed"/>
+      <path d="M36 18 Q34 8 38 4 Q40 10 40 18" fill="#c4b5fd"/>
+      <path d="M44 18 Q46 8 42 4 Q40 10 40 18" fill="#c4b5fd"/>
+    `,
+    2: `
+      <ellipse cx="40" cy="56" rx="16" ry="9" fill="#5b21b6"/>
+      <circle cx="40" cy="36" r="22" fill="#6d28d9"/>
+      <circle cx="40" cy="36" r="16" fill="#7c3aed"/>
+      <circle cx="40" cy="36" r="11" fill="#a78bfa"/>
+      <ellipse cx="32" cy="31" rx="5" ry="6" fill="white"/>
+      <circle cx="32" cy="32" r="3" fill="#1a1a2e"/>
+      <ellipse cx="48" cy="31" rx="5" ry="6" fill="white"/>
+      <circle cx="48" cy="32" r="3" fill="#1a1a2e"/>
+      <path d="M33 43 Q40 48 47 43" stroke="#5b21b6" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <path d="M20 20 Q12 8 18 2 Q20 14 30 16" fill="#7c3aed"/>
+      <path d="M60 20 Q68 8 62 2 Q60 14 50 16" fill="#7c3aed"/>
+      <path d="M34 14 Q30 2 36 -2 Q38 8 38 14" fill="#c4b5fd"/>
+      <path d="M46 14 Q50 2 44 -2 Q42 8 42 14" fill="#c4b5fd"/>
+      <path d="M40 60 Q36 70 40 76 Q44 70 40 60" fill="#7c3aed"/>
+    `,
+    3: `
+      <ellipse cx="40" cy="62" rx="22" ry="12" fill="#4c1d95"/>
+      <circle cx="40" cy="34" r="26" fill="#5b21b6"/>
+      <circle cx="40" cy="34" r="20" fill="#7c3aed"/>
+      <circle cx="40" cy="34" r="14" fill="#a78bfa"/>
+      <ellipse cx="31" cy="29" rx="6" ry="7" fill="white"/>
+      <circle cx="31" cy="30" r="3.5" fill="#1a1a2e"/>
+      <circle cx="30" cy="29" r="1" fill="white"/>
+      <ellipse cx="49" cy="29" rx="6" ry="7" fill="white"/>
+      <circle cx="49" cy="30" r="3.5" fill="#1a1a2e"/>
+      <circle cx="48" cy="29" r="1" fill="white"/>
+      <path d="M32 44 Q40 50 48 44" stroke="#4c1d95" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M12 16 Q2 2 10 -4 Q14 12 26 14" fill="#7c3aed"/>
+      <path d="M68 16 Q78 2 70 -4 Q66 12 54 14" fill="#7c3aed"/>
+      <path d="M32 10 Q26 -4 34 -8 Q36 6 36 10" fill="#c4b5fd"/>
+      <path d="M48 10 Q54 -4 46 -8 Q44 6 44 10" fill="#c4b5fd"/>
+      <path d="M40 65 Q34 76 40 82 Q46 76 40 65" fill="#7c3aed"/>
+      <ellipse cx="18" cy="40" rx="10" ry="7" fill="#a78bfa" opacity="0.5"/>
+      <ellipse cx="62" cy="40" rx="10" ry="7" fill="#a78bfa" opacity="0.5"/>
+    `
+  },
+
+  // ── SYLVA (Pflanze / Grün) ────────────────────────────────
+  sylva: {
+    1: `
+      <ellipse cx="40" cy="52" rx="12" ry="7" fill="#1a5c2e"/>
+      <circle cx="40" cy="36" r="18" fill="#27ae60"/>
+      <circle cx="40" cy="36" r="13" fill="#58d68d"/>
+      <ellipse cx="33" cy="32" rx="4" ry="5" fill="white"/>
+      <circle cx="33" cy="33" r="2.5" fill="#1a1a2e"/>
+      <ellipse cx="47" cy="32" rx="4" ry="5" fill="white"/>
+      <circle cx="47" cy="33" r="2.5" fill="#1a1a2e"/>
+      <path d="M35 42 Q40 46 45 42" stroke="#1a5c2e" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <ellipse cx="32" cy="16" rx="10" ry="7" fill="#27ae60" transform="rotate(-30 32 16)"/>
+      <ellipse cx="48" cy="16" rx="10" ry="7" fill="#27ae60" transform="rotate(30 48 16)"/>
+      <ellipse cx="40" cy="12" rx="8" ry="6" fill="#58d68d"/>
+      <circle cx="30" cy="12" r="4" fill="#2ecc71" opacity="0.7"/>
+      <circle cx="50" cy="12" r="4" fill="#2ecc71" opacity="0.7"/>
+    `,
+    2: `
+      <ellipse cx="40" cy="56" rx="16" ry="9" fill="#1a5c2e"/>
+      <circle cx="40" cy="36" r="22" fill="#1e8449"/>
+      <circle cx="40" cy="36" r="16" fill="#27ae60"/>
+      <circle cx="40" cy="36" r="10" fill="#58d68d"/>
+      <ellipse cx="32" cy="31" rx="5" ry="6" fill="white"/>
+      <circle cx="32" cy="32" r="3" fill="#1a1a2e"/>
+      <ellipse cx="48" cy="31" rx="5" ry="6" fill="white"/>
+      <circle cx="48" cy="32" r="3" fill="#1a1a2e"/>
+      <path d="M33 43 Q40 48 47 43" stroke="#1a5c2e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="24" cy="14" rx="14" ry="9" fill="#27ae60" transform="rotate(-40 24 14)"/>
+      <ellipse cx="56" cy="14" rx="14" ry="9" fill="#27ae60" transform="rotate(40 56 14)"/>
+      <ellipse cx="40" cy="10" rx="12" ry="8" fill="#58d68d"/>
+      <circle cx="40" cy="6" r="5" fill="#2ecc71"/>
+    `,
+    3: `
+      <ellipse cx="40" cy="62" rx="22" ry="12" fill="#145a32"/>
+      <circle cx="40" cy="34" r="26" fill="#1a5c2e"/>
+      <circle cx="40" cy="34" r="20" fill="#1e8449"/>
+      <circle cx="40" cy="34" r="14" fill="#27ae60"/>
+      <circle cx="40" cy="34" r="9" fill="#58d68d"/>
+      <ellipse cx="31" cy="29" rx="6" ry="7" fill="white"/>
+      <circle cx="31" cy="30" r="3.5" fill="#1a1a2e"/>
+      <circle cx="30" cy="29" r="1" fill="white"/>
+      <ellipse cx="49" cy="29" rx="6" ry="7" fill="white"/>
+      <circle cx="49" cy="30" r="3.5" fill="#1a1a2e"/>
+      <circle cx="48" cy="29" r="1" fill="white"/>
+      <path d="M32 44 Q40 50 48 44" stroke="#145a32" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <ellipse cx="18" cy="12" rx="16" ry="10" fill="#27ae60" transform="rotate(-45 18 12)"/>
+      <ellipse cx="62" cy="12" rx="16" ry="10" fill="#27ae60" transform="rotate(45 62 12)"/>
+      <ellipse cx="40" cy="8" rx="16" ry="10" fill="#58d68d"/>
+      <circle cx="40" cy="2" r="7" fill="#2ecc71"/>
+      <ellipse cx="18" cy="40" rx="10" ry="6" fill="#27ae60" opacity="0.5"/>
+      <ellipse cx="62" cy="40" rx="10" ry="6" fill="#27ae60" opacity="0.5"/>
+    `
+  },
+
+  // ── LUMA (Fee / Pink) ─────────────────────────────────────
+  luma: {
+    1: `
+      <ellipse cx="40" cy="52" rx="12" ry="7" fill="#c2185b"/>
+      <circle cx="40" cy="36" r="18" fill="#e91e8c"/>
+      <circle cx="40" cy="36" r="13" fill="#f8bbd0"/>
+      <ellipse cx="33" cy="32" rx="4" ry="5" fill="white"/>
+      <circle cx="33" cy="33" r="2.5" fill="#1a1a2e"/>
+      <ellipse cx="47" cy="32" rx="4" ry="5" fill="white"/>
+      <circle cx="47" cy="33" r="2.5" fill="#1a1a2e"/>
+      <path d="M35 43 Q40 47 45 43" stroke="#c2185b" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <ellipse cx="26" cy="28" rx="9" ry="6" fill="#f8bbd0" opacity="0.8" transform="rotate(-20 26 28)"/>
+      <ellipse cx="54" cy="28" rx="9" ry="6" fill="#f8bbd0" opacity="0.8" transform="rotate(20 54 28)"/>
+      <circle cx="30" cy="18" r="3" fill="#f2c94c" opacity="0.9"/>
+      <circle cx="50" cy="18" r="3" fill="#f2c94c" opacity="0.9"/>
+      <circle cx="40" cy="14" r="3" fill="#f2c94c" opacity="0.8"/>
+    `,
+    2: `
+      <ellipse cx="40" cy="56" rx="16" ry="9" fill="#880e4f"/>
+      <circle cx="40" cy="36" r="22" fill="#c2185b"/>
+      <circle cx="40" cy="36" r="16" fill="#e91e8c"/>
+      <circle cx="40" cy="36" r="10" fill="#f8bbd0"/>
+      <ellipse cx="32" cy="31" rx="5" ry="6" fill="white"/>
+      <circle cx="32" cy="32" r="3" fill="#1a1a2e"/>
+      <ellipse cx="48" cy="31" rx="5" ry="6" fill="white"/>
+      <circle cx="48" cy="32" r="3" fill="#1a1a2e"/>
+      <path d="M33 43 Q40 48 47 43" stroke="#880e4f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="18" cy="26" rx="13" ry="8" fill="#f8bbd0" opacity="0.8" transform="rotate(-30 18 26)"/>
+      <ellipse cx="62" cy="26" rx="13" ry="8" fill="#f8bbd0" opacity="0.8" transform="rotate(30 62 26)"/>
+      <ellipse cx="22" cy="42" rx="10" ry="6" fill="#f8bbd0" opacity="0.6" transform="rotate(20 22 42)"/>
+      <ellipse cx="58" cy="42" rx="10" ry="6" fill="#f8bbd0" opacity="0.6" transform="rotate(-20 58 42)"/>
+      <circle cx="28" cy="12" r="4" fill="#f2c94c" opacity="0.9"/>
+      <circle cx="52" cy="12" r="4" fill="#f2c94c" opacity="0.9"/>
+      <circle cx="40" cy="8" r="5" fill="#f2c94c"/>
+    `,
+    3: `
+      <ellipse cx="40" cy="62" rx="22" ry="12" fill="#560027"/>
+      <circle cx="40" cy="34" r="26" fill="#880e4f"/>
+      <circle cx="40" cy="34" r="20" fill="#c2185b"/>
+      <circle cx="40" cy="34" r="14" fill="#e91e8c"/>
+      <circle cx="40" cy="34" r="9" fill="#f8bbd0"/>
+      <ellipse cx="31" cy="29" rx="6" ry="7" fill="white"/>
+      <circle cx="31" cy="30" r="3.5" fill="#1a1a2e"/>
+      <circle cx="30" cy="29" r="1" fill="white"/>
+      <ellipse cx="49" cy="29" rx="6" ry="7" fill="white"/>
+      <circle cx="49" cy="30" r="3.5" fill="#1a1a2e"/>
+      <circle cx="48" cy="29" r="1" fill="white"/>
+      <path d="M32 44 Q40 50 48 44" stroke="#560027" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <ellipse cx="10" cy="24" rx="16" ry="10" fill="#f8bbd0" opacity="0.75" transform="rotate(-35 10 24)"/>
+      <ellipse cx="70" cy="24" rx="16" ry="10" fill="#f8bbd0" opacity="0.75" transform="rotate(35 70 24)"/>
+      <ellipse cx="14" cy="46" rx="13" ry="8" fill="#f8bbd0" opacity="0.6" transform="rotate(25 14 46)"/>
+      <ellipse cx="66" cy="46" rx="13" ry="8" fill="#f8bbd0" opacity="0.6" transform="rotate(-25 66 46)"/>
+      <circle cx="24" cy="8" r="5" fill="#f2c94c" opacity="0.9"/>
+      <circle cx="56" cy="8" r="5" fill="#f2c94c" opacity="0.9"/>
+      <circle cx="40" cy="4" r="7" fill="#f2c94c"/>
+    `
+  },
+
+  // ── PETRA (Stein / Grau) ──────────────────────────────────
+  petra: {
+    1: `
+      <ellipse cx="40" cy="54" rx="16" ry="9" fill="#5d6d7e"/>
+      <circle cx="40" cy="38" r="20" fill="#7f8c8d"/>
+      <circle cx="40" cy="38" r="15" fill="#95a5a6"/>
+      <ellipse cx="33" cy="34" rx="4" ry="5" fill="white"/>
+      <circle cx="33" cy="35" r="2.5" fill="#1a1a2e"/>
+      <ellipse cx="47" cy="34" rx="4" ry="5" fill="white"/>
+      <circle cx="47" cy="35" r="2.5" fill="#1a1a2e"/>
+      <path d="M35 44 Q40 48 45 44" stroke="#5d6d7e" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <polygon points="30,20 26,10 34,14 32,4 40,10 48,4 46,14 54,10 50,20 40,16" fill="#bdc3c7"/>
+      <polygon points="34,22 30,14 37,17" fill="#95a5a6"/>
+      <polygon points="46,22 50,14 43,17" fill="#95a5a6"/>
+    `,
+    2: `
+      <ellipse cx="40" cy="58" rx="20" ry="11" fill="#4d5d6e"/>
+      <circle cx="40" cy="38" r="24" fill="#626567"/>
+      <circle cx="40" cy="38" r="18" fill="#7f8c8d"/>
+      <circle cx="40" cy="38" r="13" fill="#95a5a6"/>
+      <ellipse cx="32" cy="33" rx="5" ry="6" fill="white"/>
+      <circle cx="32" cy="34" r="3" fill="#1a1a2e"/>
+      <ellipse cx="48" cy="33" rx="5" ry="6" fill="white"/>
+      <circle cx="48" cy="34" r="3" fill="#1a1a2e"/>
+      <path d="M33 45 Q40 50 47 45" stroke="#4d5d6e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <polygon points="28,18 22,6 32,11 30,-1 40,8 50,-1 48,11 58,6 52,18 40,12" fill="#bdc3c7"/>
+      <polygon points="20,32 12,22 22,26" fill="#7f8c8d"/>
+      <polygon points="60,32 68,22 58,26" fill="#7f8c8d"/>
+    `,
+    3: `
+      <ellipse cx="40" cy="64" rx="26" ry="14" fill="#3d4e5c"/>
+      <circle cx="40" cy="36" r="30" fill="#4d5d6e"/>
+      <circle cx="40" cy="36" r="24" fill="#626567"/>
+      <circle cx="40" cy="36" r="18" fill="#7f8c8d"/>
+      <circle cx="40" cy="36" r="12" fill="#95a5a6"/>
+      <ellipse cx="31" cy="31" rx="6" ry="7" fill="white"/>
+      <circle cx="31" cy="32" r="3.5" fill="#1a1a2e"/>
+      <circle cx="30" cy="31" r="1" fill="white"/>
+      <ellipse cx="49" cy="31" rx="6" ry="7" fill="white"/>
+      <circle cx="49" cy="32" r="3.5" fill="#1a1a2e"/>
+      <circle cx="48" cy="31" r="1" fill="white"/>
+      <path d="M32 46 Q40 52 48 46" stroke="#3d4e5c" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <polygon points="26,14 18,0 30,6 28,-8 40,4 52,-8 50,6 62,0 54,14 40,8" fill="#bdc3c7"/>
+      <polygon points="14,30 4,18 18,24" fill="#7f8c8d"/>
+      <polygon points="66,30 76,18 62,24" fill="#7f8c8d"/>
+      <polygon points="20,46 10,36 22,40" fill="#95a5a6" opacity="0.7"/>
+      <polygon points="60,46 70,36 58,40" fill="#95a5a6" opacity="0.7"/>
+    `
+  },
+
+  // ── GLACIA (Eis / Hellblau) ───────────────────────────────
+  glacia: {
+    1: `
+      <ellipse cx="40" cy="52" rx="12" ry="7" fill="#0e7490"/>
+      <circle cx="40" cy="36" r="18" fill="#06b6d4"/>
+      <circle cx="40" cy="36" r="13" fill="#a5f3fc"/>
+      <ellipse cx="33" cy="32" rx="4" ry="5" fill="white"/>
+      <circle cx="33" cy="33" r="2.5" fill="#1a1a2e"/>
+      <ellipse cx="47" cy="32" rx="4" ry="5" fill="white"/>
+      <circle cx="47" cy="33" r="2.5" fill="#1a1a2e"/>
+      <path d="M35 42 Q40 46 45 42" stroke="#0e7490" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <line x1="40" y1="4" x2="40" y2="18" stroke="#a5f3fc" stroke-width="2"/>
+      <line x1="32" y1="6" x2="40" y2="12" stroke="#a5f3fc" stroke-width="1.5"/>
+      <line x1="48" y1="6" x2="40" y2="12" stroke="#a5f3fc" stroke-width="1.5"/>
+      <line x1="32" y1="16" x2="40" y2="12" stroke="#a5f3fc" stroke-width="1.5"/>
+      <line x1="48" y1="16" x2="40" y2="12" stroke="#a5f3fc" stroke-width="1.5"/>
+      <circle cx="40" cy="12" r="3" fill="white" opacity="0.9"/>
+    `,
+    2: `
+      <ellipse cx="40" cy="56" rx="16" ry="9" fill="#0c4a6e"/>
+      <circle cx="40" cy="36" r="22" fill="#0369a1"/>
+      <circle cx="40" cy="36" r="16" fill="#06b6d4"/>
+      <circle cx="40" cy="36" r="10" fill="#a5f3fc"/>
+      <ellipse cx="32" cy="31" rx="5" ry="6" fill="white"/>
+      <circle cx="32" cy="32" r="3" fill="#1a1a2e"/>
+      <ellipse cx="48" cy="31" rx="5" ry="6" fill="white"/>
+      <circle cx="48" cy="32" r="3" fill="#1a1a2e"/>
+      <path d="M33 43 Q40 48 47 43" stroke="#0c4a6e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <line x1="40" y1="0" x2="40" y2="16" stroke="#a5f3fc" stroke-width="2.5"/>
+      <line x1="28" y1="2" x2="40" y2="10" stroke="#a5f3fc" stroke-width="2"/>
+      <line x1="52" y1="2" x2="40" y2="10" stroke="#a5f3fc" stroke-width="2"/>
+      <line x1="28" y1="14" x2="40" y2="8" stroke="#a5f3fc" stroke-width="2"/>
+      <line x1="52" y1="14" x2="40" y2="8" stroke="#a5f3fc" stroke-width="2"/>
+      <line x1="22" y1="8" x2="40" y2="8" stroke="#e0f7fa" stroke-width="1.5" opacity="0.7"/>
+      <line x1="58" y1="8" x2="40" y2="8" stroke="#e0f7fa" stroke-width="1.5" opacity="0.7"/>
+      <circle cx="40" cy="8" r="4" fill="white"/>
+      <ellipse cx="22" cy="36" rx="7" ry="5" fill="#a5f3fc" opacity="0.5"/>
+      <ellipse cx="58" cy="36" rx="7" ry="5" fill="#a5f3fc" opacity="0.5"/>
+    `,
+    3: `
+      <ellipse cx="40" cy="62" rx="22" ry="12" fill="#082f49"/>
+      <circle cx="40" cy="34" r="26" fill="#0c4a6e"/>
+      <circle cx="40" cy="34" r="20" fill="#0369a1"/>
+      <circle cx="40" cy="34" r="14" fill="#06b6d4"/>
+      <circle cx="40" cy="34" r="9" fill="#a5f3fc"/>
+      <ellipse cx="31" cy="29" rx="6" ry="7" fill="white"/>
+      <circle cx="31" cy="30" r="3.5" fill="#1a1a2e"/>
+      <circle cx="30" cy="29" r="1" fill="white"/>
+      <ellipse cx="49" cy="29" rx="6" ry="7" fill="white"/>
+      <circle cx="49" cy="30" r="3.5" fill="#1a1a2e"/>
+      <circle cx="48" cy="29" r="1" fill="white"/>
+      <path d="M32 44 Q40 50 48 44" stroke="#082f49" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <line x1="40" y1="-4" x2="40" y2="14" stroke="#a5f3fc" stroke-width="3"/>
+      <line x1="24" y1="-2" x2="40" y2="8" stroke="#a5f3fc" stroke-width="2.5"/>
+      <line x1="56" y1="-2" x2="40" y2="8" stroke="#a5f3fc" stroke-width="2.5"/>
+      <line x1="24" y1="14" x2="40" y2="6" stroke="#a5f3fc" stroke-width="2.5"/>
+      <line x1="56" y1="14" x2="40" y2="6" stroke="#a5f3fc" stroke-width="2.5"/>
+      <line x1="14" y1="6" x2="40" y2="6" stroke="#e0f7fa" stroke-width="2" opacity="0.8"/>
+      <line x1="66" y1="6" x2="40" y2="6" stroke="#e0f7fa" stroke-width="2" opacity="0.8"/>
+      <circle cx="40" cy="6" r="5" fill="white"/>
+      <ellipse cx="16" cy="34" rx="10" ry="7" fill="#a5f3fc" opacity="0.5"/>
+      <ellipse cx="64" cy="34" rx="10" ry="7" fill="#a5f3fc" opacity="0.5"/>
+    `
+  }
+};
+
+// Enemy sprites per arena
+const ENEMY_SPRITES = {
+  animales: `
+    <circle cx="45" cy="38" r="30" fill="#2d4a2e" opacity="0.3"/>
+    <ellipse cx="45" cy="55" rx="20" ry="10" fill="#1a3a1a"/>
+    <circle cx="45" cy="35" r="22" fill="#2ecc71" opacity="0.8"/>
+    <circle cx="35" cy="25" r="8" fill="#2ecc71"/>
+    <circle cx="55" cy="25" r="8" fill="#2ecc71"/>
+    <ellipse cx="32" cy="30" rx="4" ry="5" fill="white"/>
+    <circle cx="32" cy="31" r="2.5" fill="#1a1a2e"/>
+    <ellipse cx="48" cy="30" rx="4" ry="5" fill="white"/>
+    <circle cx="48" cy="31" r="2.5" fill="#1a1a2e"/>
+    <path d="M36 42 Q42 46 48 42" stroke="#1a3a1a" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <ellipse cx="42" cy="38" rx="5" ry="3" fill="#1a3a1a" opacity="0.4"/>
+  `,
+  comida: `
+    <circle cx="45" cy="40" r="28" fill="#f39c12" opacity="0.2"/>
+    <ellipse cx="45" cy="55" rx="22" ry="8" fill="#e67e22"/>
+    <circle cx="45" cy="36" r="24" fill="#f39c12"/>
+    <circle cx="45" cy="36" r="18" fill="#ffeaa7"/>
+    <ellipse cx="37" cy="31" rx="5" ry="6" fill="white"/>
+    <circle cx="37" cy="32" r="3" fill="#1a1a2e"/>
+    <ellipse cx="53" cy="31" rx="5" ry="6" fill="white"/>
+    <circle cx="53" cy="32" r="3" fill="#1a1a2e"/>
+    <path d="M38 44 Q45 50 52 44" stroke="#e67e22" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <circle cx="30" cy="25" r="8" fill="#e74c3c" opacity="0.8"/>
+    <text x="30" y="29" text-anchor="middle" font-size="10">🍎</text>
+    <circle cx="60" cy="22" r="8" fill="#f39c12" opacity="0.8"/>
+    <text x="60" y="26" text-anchor="middle" font-size="10">🍋</text>
+  `,
+  hogar: `
+    <polygon points="45,8 70,30 20,30" fill="#8e44ad" opacity="0.9"/>
+    <rect x="22" y="30" width="46" height="32" fill="#9b59b6"/>
+    <rect x="35" y="42" width="14" height="20" fill="#6c3483"/>
+    <rect x="26" y="35" width="10" height="10" fill="#81d4fa" opacity="0.8"/>
+    <rect x="52" y="35" width="10" height="10" fill="#81d4fa" opacity="0.8"/>
+    <ellipse cx="45" cy="30" rx="5" ry="3" fill="#f2c94c" opacity="0.5"/>
+  `,
+  personas: `
+    <circle cx="45" cy="22" r="14" fill="#f5a623"/>
+    <ellipse cx="38" cy="19" rx="4" ry="5" fill="white"/>
+    <circle cx="38" cy="20" r="2.5" fill="#1a1a2e"/>
+    <ellipse cx="52" cy="19" rx="4" ry="5" fill="white"/>
+    <circle cx="52" cy="20" r="2.5" fill="#1a1a2e"/>
+    <path d="M40 28 Q45 32 50 28" stroke="#c47d0e" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <rect x="30" y="36" width="30" height="26" rx="8" fill="#3498db"/>
+    <ellipse cx="28" cy="42" rx="8" ry="14" rx2="6" fill="#3498db"/>
+    <ellipse cx="62" cy="42" rx="8" ry="14" fill="#3498db"/>
+    <ellipse cx="36" cy="62" rx="8" ry="6" fill="#2c3e50"/>
+    <ellipse cx="54" cy="62" rx="8" ry="6" fill="#2c3e50"/>
+  `,
+  naturaleza: `
+    <circle cx="45" cy="45" r="28" fill="#1a3a1a" opacity="0.3"/>
+    <rect x="42" y="30" width="6" height="32" fill="#8B5E3C"/>
+    <ellipse cx="45" cy="25" rx="22" ry="18" fill="#27ae60"/>
+    <ellipse cx="32" cy="35" rx="14" ry="12" fill="#2ecc71" opacity="0.8"/>
+    <ellipse cx="58" cy="33" rx="14" ry="12" fill="#2ecc71" opacity="0.8"/>
+    <ellipse cx="45" cy="40" rx="18" ry="14" fill="#27ae60" opacity="0.9"/>
+    <circle cx="36" cy="20" r="6" fill="#f2c94c" opacity="0.9"/>
+    <circle cx="54" cy="18" r="5" fill="#f2c94c" opacity="0.8"/>
+    <circle cx="45" cy="30" r="5" fill="#f39c12" opacity="0.7"/>
+  `,
+  cuerpo: `
+    <circle cx="45" cy="20" r="14" fill="#e8b4b8"/>
+    <ellipse cx="38" cy="17" rx="4" ry="5" fill="white"/>
+    <circle cx="38" cy="18" r="2.5" fill="#1a1a2e"/>
+    <ellipse cx="52" cy="17" rx="4" ry="5" fill="white"/>
+    <circle cx="52" cy="18" r="2.5" fill="#1a1a2e"/>
+    <path d="M40 26 Q45 30 50 26" stroke="#c4797d" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <rect x="32" y="34" width="26" height="22" rx="6" fill="#e8b4b8"/>
+    <ellipse cx="26" cy="42" rx="7" ry="12" fill="#e8b4b8"/>
+    <ellipse cx="64" cy="42" rx="7" ry="12" fill="#e8b4b8"/>
+    <ellipse cx="37" cy="58" rx="7" ry="5" fill="#e8b4b8"/>
+    <ellipse cx="53" cy="58" rx="7" ry="5" fill="#e8b4b8"/>
+    <path d="M38 40 L52 40" stroke="#c4797d" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="45" cy="35" r="3" fill="#c4797d" opacity="0.5"/>
+  `,
+  adjetivos: `
+    <circle cx="45" cy="40" r="32" fill="#a78bfa" opacity="0.15"/>
+    <polygon points="45,10 72,55 18,55" fill="none" stroke="#a78bfa" stroke-width="3"/>
+    <circle cx="45" cy="40" r="18" fill="#a78bfa" opacity="0.3"/>
+    <circle cx="45" cy="40" r="10" fill="#a78bfa" opacity="0.6"/>
+    <text x="45" y="46" text-anchor="middle" font-size="12" fill="white" font-family="sans-serif" font-weight="bold">?</text>
+    <circle cx="20" cy="20" r="7" fill="#f2c94c" opacity="0.8"/>
+    <text x="20" y="24" text-anchor="middle" font-size="9" fill="#1a1a2e" font-family="sans-serif" font-weight="bold">adj</text>
+    <circle cx="70" cy="22" r="7" fill="#e94560" opacity="0.8"/>
+    <text x="70" y="26" text-anchor="middle" font-size="9" fill="white" font-family="sans-serif" font-weight="bold">adj</text>
+    <circle cx="45" cy="72" r="7" fill="#4fc3f7" opacity="0.8"/>
+    <text x="45" y="76" text-anchor="middle" font-size="9" fill="#1a1a2e" font-family="sans-serif" font-weight="bold">adj</text>
+  `,
+  profesiones: `
+    <circle cx="45" cy="22" r="12" fill="#f5a623"/>
+    <ellipse cx="39" cy="19" rx="3.5" ry="4.5" fill="white"/>
+    <circle cx="39" cy="20" r="2" fill="#1a1a2e"/>
+    <ellipse cx="51" cy="19" rx="3.5" ry="4.5" fill="white"/>
+    <circle cx="51" cy="20" r="2" fill="#1a1a2e"/>
+    <path d="M41 28 Q45 31 49 28" stroke="#c47d0e" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <rect x="28" y="34" width="34" height="24" rx="4" fill="#1b2c45"/>
+    <rect x="38" y="30" width="14" height="8" rx="3" fill="#a49770"/>
+    <rect x="34" y="38" width="6" height="14" fill="#a49770" opacity="0.7"/>
+    <circle cx="58" cy="56" r="10" fill="#226f54"/>
+    <text x="58" y="60" text-anchor="middle" font-size="12" fill="white" font-family="sans-serif">✚</text>
+    <ellipse cx="37" cy="60" rx="7" ry="5" fill="#1b2c45"/>
+    <ellipse cx="53" cy="60" rx="7" ry="5" fill="#1b2c45"/>
+  `,
+  ropa: `
+    <circle cx="45" cy="45" r="30" fill="#e91e8c" opacity="0.1"/>
+    <path d="M30 25 L20 45 L35 45 L35 70 L55 70 L55 45 L70 45 L60 25 L52 30 Q45 35 38 30 Z" fill="#e91e8c" opacity="0.85"/>
+    <path d="M38 30 Q45 22 52 30" fill="none" stroke="#c2185b" stroke-width="2"/>
+    <circle cx="45" cy="48" r="3" fill="#c2185b"/>
+    <circle cx="45" cy="56" r="3" fill="#c2185b"/>
+    <circle cx="45" cy="64" r="3" fill="#c2185b"/>
+    <ellipse cx="27" cy="43" rx="8" ry="10" fill="#e91e8c" opacity="0.7"/>
+    <ellipse cx="63" cy="43" rx="8" ry="10" fill="#e91e8c" opacity="0.7"/>
+  `,
+  tiempo: `
+    <circle cx="45" cy="35" r="26" fill="none" stroke="#4fc3f7" stroke-width="4"/>
+    <circle cx="45" cy="35" r="22" fill="#0d1b2a"/>
+    <line x1="45" y1="35" x2="45" y2="18" stroke="white" stroke-width="3" stroke-linecap="round"/>
+    <line x1="45" y1="35" x2="58" y2="42" stroke="#f2c94c" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="45" cy="35" r="3" fill="white"/>
+    <circle cx="45" cy="14" r="2" fill="#4fc3f7"/>
+    <circle cx="45" cy="56" r="2" fill="#4fc3f7"/>
+    <circle cx="24" cy="35" r="2" fill="#4fc3f7"/>
+    <circle cx="66" cy="35" r="2" fill="#4fc3f7"/>
+    <rect x="38" y="58" width="14" height="6" rx="3" fill="#4fc3f7" opacity="0.6"/>
+    <ellipse cx="45" cy="72" rx="16" ry="6" fill="#0d1b2a" opacity="0.5"/>
+  `,
+  sociedad: `
+    <circle cx="30" cy="30" r="10" fill="#e74c3c" opacity="0.8"/>
+    <circle cx="60" cy="30" r="10" fill="#3498db" opacity="0.8"/>
+    <circle cx="45" cy="52" r="10" fill="#2ecc71" opacity="0.8"/>
+    <ellipse cx="28" cy="27" rx="3" ry="3.5" fill="white"/>
+    <circle cx="28" cy="28" r="1.8" fill="#1a1a2e"/>
+    <ellipse cx="32" cy="27" rx="3" ry="3.5" fill="white"/>
+    <circle cx="32" cy="28" r="1.8" fill="#1a1a2e"/>
+    <ellipse cx="58" cy="27" rx="3" ry="3.5" fill="white"/>
+    <circle cx="58" cy="28" r="1.8" fill="#1a1a2e"/>
+    <ellipse cx="62" cy="27" rx="3" ry="3.5" fill="white"/>
+    <circle cx="62" cy="28" r="1.8" fill="#1a1a2e"/>
+    <ellipse cx="43" cy="49" rx="3" ry="3.5" fill="white"/>
+    <circle cx="43" cy="50" r="1.8" fill="#1a1a2e"/>
+    <ellipse cx="47" cy="49" rx="3" ry="3.5" fill="white"/>
+    <circle cx="47" cy="50" r="1.8" fill="#1a1a2e"/>
+    <line x1="40" y1="30" x2="55" y2="30" stroke="white" stroke-width="2" opacity="0.5"/>
+    <line x1="35" y1="42" x2="43" y2="48" stroke="white" stroke-width="2" opacity="0.5"/>
+    <line x1="55" y1="42" x2="47" y2="48" stroke="white" stroke-width="2" opacity="0.5"/>
+  `,
+  lugares: `
+    <rect x="20" y="30" width="50" height="40" rx="3" fill="#f0a500" opacity="0.8"/>
+    <polygon points="45,8 72,32 18,32" fill="#c47d00"/>
+    <rect x="35" y="48" width="12" height="22" rx="2" fill="#1a1a2e"/>
+    <rect x="22" y="38" width="10" height="10" rx="1" fill="#81d4fa" opacity="0.9"/>
+    <rect x="58" y="38" width="10" height="10" rx="1" fill="#81d4fa" opacity="0.9"/>
+    <circle cx="65" cy="55" r="12" fill="#226f54"/>
+    <rect x="60" y="44" width="10" height="22" rx="2" fill="#1b6644"/>
+    <rect x="56" y="52" width="18" height="14" rx="2" fill="#1b6644"/>
+    <rect x="24" y="20" width="4" height="14" fill="#c47d00"/>
+    <circle cx="26" cy="18" r="5" fill="#e74c3c" opacity="0.9"/>
+  `,
+  electronica: `
+    <rect x="18" y="22" width="54" height="38" rx="5" fill="#0d1b2a"/>
+    <rect x="22" y="26" width="46" height="28" rx="3" fill="#00b4d8" opacity="0.3"/>
+    <circle cx="30" cy="36" r="4" fill="#00b4d8" opacity="0.8"/>
+    <circle cx="45" cy="32" r="5" fill="#f2c94c" opacity="0.7"/>
+    <rect x="38" y="42" width="14" height="3" rx="1" fill="#00b4d8" opacity="0.6"/>
+    <rect x="28" y="48" width="34" height="3" rx="1" fill="#00b4d8" opacity="0.4"/>
+    <rect x="35" y="60" width="20" height="4" rx="2" fill="#1b2838"/>
+    <rect x="25" y="64" width="40" height="3" rx="1" fill="#0d1b2a"/>
+    <circle cx="60" cy="33" r="6" fill="#a78bfa" opacity="0.8"/>
+    <circle cx="60" cy="33" r="3" fill="#7c3aed"/>
+  `,
+  transporte: `
+    <rect x="15" y="38" width="60" height="28" rx="8" fill="#48cae4"/>
+    <rect x="22" y="28" width="40" height="18" rx="6" fill="#90e0ef"/>
+    <rect x="26" y="30" width="14" height="12" rx="3" fill="#81d4fa" opacity="0.9"/>
+    <rect x="44" y="30" width="14" height="12" rx="3" fill="#81d4fa" opacity="0.9"/>
+    <circle cx="28" cy="66" r="10" fill="#023e8a"/>
+    <circle cx="28" cy="66" r="6" fill="#48cae4"/>
+    <circle cx="62" cy="66" r="10" fill="#023e8a"/>
+    <circle cx="62" cy="66" r="6" fill="#48cae4"/>
+    <rect x="12" y="50" width="8" height="6" rx="2" fill="#f2c94c" opacity="0.8"/>
+    <rect x="70" y="50" width="8" height="6" rx="2" fill="#e94560" opacity="0.8"/>
+    <line x1="10" y1="56" x2="80" y2="56" stroke="#023e8a" stroke-width="2"/>
+  `,
+  direcciones: `
+    <circle cx="45" cy="45" r="32" fill="#0d1b2a" opacity="0.5"/>
+    <circle cx="45" cy="45" r="28" fill="none" stroke="#90e0ef" stroke-width="2"/>
+    <text x="45" y="20" text-anchor="middle" font-size="11" fill="#90e0ef" font-family="sans-serif" font-weight="bold">N</text>
+    <text x="45" y="76" text-anchor="middle" font-size="11" fill="#90e0ef" font-family="sans-serif" font-weight="bold">S</text>
+    <text x="74" y="50" text-anchor="middle" font-size="11" fill="#90e0ef" font-family="sans-serif" font-weight="bold">O</text>
+    <text x="16" y="50" text-anchor="middle" font-size="11" fill="#90e0ef" font-family="sans-serif" font-weight="bold">W</text>
+    <polygon points="45,26 48,45 45,42 42,45" fill="#f2c94c"/>
+    <polygon points="45,64 48,45 45,48 42,45" fill="#90e0ef" opacity="0.5"/>
+    <circle cx="45" cy="45" r="4" fill="#f2c94c"/>
+  `,
+  numeros: `
+    <circle cx="45" cy="40" r="30" fill="#0d1b2a" opacity="0.4"/>
+    <text x="30" y="32" text-anchor="middle" font-size="18" fill="#caf0f8" font-family="monospace" font-weight="bold">1</text>
+    <text x="60" y="32" text-anchor="middle" font-size="18" fill="#caf0f8" font-family="monospace" font-weight="bold">2</text>
+    <text x="30" y="58" text-anchor="middle" font-size="18" fill="#caf0f8" font-family="monospace" font-weight="bold">3</text>
+    <text x="60" y="58" text-anchor="middle" font-size="18" fill="#caf0f8" font-family="monospace" font-weight="bold">4</text>
+    <text x="45" y="46" text-anchor="middle" font-size="22" fill="#f2c94c" font-family="monospace" font-weight="bold">∞</text>
+    <circle cx="45" cy="10" r="5" fill="#f2c94c" opacity="0.6"/>
+    <circle cx="45" cy="70" r="5" fill="#f2c94c" opacity="0.6"/>
+  `,
+  deporte: `
+    <circle cx="45" cy="42" r="26" fill="#f72585" opacity="0.15"/>
+    <circle cx="45" cy="42" r="22" fill="none" stroke="#f72585" stroke-width="3"/>
+    <path d="M30 28 Q45 20 60 28" fill="none" stroke="#f72585" stroke-width="2" opacity="0.7"/>
+    <path d="M30 56 Q45 64 60 56" fill="none" stroke="#f72585" stroke-width="2" opacity="0.7"/>
+    <line x1="23" y1="42" x2="67" y2="42" stroke="#f72585" stroke-width="2" opacity="0.5"/>
+    <circle cx="45" cy="42" r="6" fill="#f72585" opacity="0.8"/>
+    <circle cx="22" cy="25" r="8" fill="#f2c94c" opacity="0.85"/>
+    <text x="22" y="29" text-anchor="middle" font-size="10" fill="#1a1a2e" font-family="sans-serif" font-weight="bold">⚽</text>
+    <circle cx="68" cy="58" r="8" fill="#f2c94c" opacity="0.7"/>
+    <text x="68" y="62" text-anchor="middle" font-size="10" fill="#1a1a2e" font-family="sans-serif">🏆</text>
+  `,
+  bonus: `
+    <rect x="20" y="18" width="50" height="54" rx="5" fill="#7b2d8b" opacity="0.8"/>
+    <rect x="24" y="22" width="42" height="46" rx="3" fill="#0d1b2a"/>
+    <line x1="28" y1="32" x2="62" y2="32" stroke="#a78bfa" stroke-width="2" opacity="0.8"/>
+    <line x1="28" y1="40" x2="62" y2="40" stroke="#a78bfa" stroke-width="2" opacity="0.6"/>
+    <line x1="28" y1="48" x2="50" y2="48" stroke="#a78bfa" stroke-width="2" opacity="0.4"/>
+    <text x="45" y="62" text-anchor="middle" font-size="14" fill="#f2c94c" font-family="sans-serif" font-weight="bold">abc</text>
+    <circle cx="20" cy="18" r="6" fill="#f2c94c"/>
+    <text x="20" y="22" text-anchor="middle" font-size="8" fill="#1a1a2e" font-family="sans-serif" font-weight="bold">★</text>
+  `
+};
+
+// ════════════════════════════════════════════════════════════
+// VOCABULARY DATA (Spanisch ↔ Deutsch)
+// ════════════════════════════════════════════════════════════
+
+const ARENAS = [
+  // ── 1. TIERE ──────────────────────────────────────────────
+  {
+    id: 'animales',
+    name: 'Tiere',
+    emoji: '🐾',
+    color: '#2ecc71',
+    vocab: [
+      {es:'el perro', de:'der Hund'}, {es:'el gato', de:'die Katze'},
+      {es:'el pez', de:'der Fisch'}, {es:'el pájaro', de:'der Vogel'},
+      {es:'la vaca', de:'die Kuh'}, {es:'el cerdo', de:'das Schwein'},
+      {es:'el ratón', de:'die Maus'}, {es:'el caballo', de:'das Pferd'},
+      {es:'el ala', de:'der Flügel'}, {es:'el animal', de:'das Tier'},
+      {es:'el tigre', de:'der Tiger'}, {es:'el oso', de:'der Bär'},
+      {es:'la serpiente', de:'die Schlange'}, {es:'el elefante', de:'der Elefant'},
+      {es:'el lobo', de:'der Wolf'}, {es:'el león', de:'der Löwe'},
+      {es:'el mono', de:'der Affe'}, {es:'el conejo', de:'der Hase'},
+      {es:'la oveja', de:'das Schaf'}, {es:'el pato', de:'die Ente'},
+      {es:'la araña', de:'die Spinne'}, {es:'la abeja', de:'die Biene'},
+      {es:'el delfín', de:'der Delfin'}, {es:'la tortuga', de:'die Schildkröte'},
+      // Verben
+      {es:'volar', de:'fliegen'}, {es:'nadar', de:'schwimmen'},
+      {es:'correr', de:'rennen'}, {es:'saltar', de:'springen'},
+      {es:'alimentar', de:'füttern'}
+    ]
+  },
+  // ── 2. ESSEN & TRINKEN ────────────────────────────────────
+  {
+    id: 'comida',
+    name: 'Essen & Trinken',
+    emoji: '🍽️',
+    color: '#f39c12',
+    vocab: [
+      {es:'el pan', de:'das Brot'}, {es:'el queso', de:'der Käse'},
+      {es:'el huevo', de:'das Ei'}, {es:'la sopa', de:'die Suppe'},
+      {es:'el pastel', de:'der Kuchen'}, {es:'el pollo', de:'das Hähnchen'},
+      {es:'la manzana', de:'der Apfel'}, {es:'el plátano', de:'die Banane'},
+      {es:'el arroz', de:'der Reis'}, {es:'la sal', de:'das Salz'},
+      {es:'el café', de:'der Kaffee'}, {es:'el vino', de:'der Wein'},
+      {es:'la leche', de:'die Milch'}, {es:'el agua', de:'das Wasser'},
+      {es:'la cerveza', de:'das Bier'}, {es:'el zumo', de:'der Saft'},
+      {es:'el azúcar', de:'der Zucker'}, {es:'el aceite', de:'das Öl'},
+      {es:'la naranja', de:'die Orange'}, {es:'el limón', de:'die Zitrone'},
+      {es:'el maíz', de:'der Mais'}, {es:'el tenedor', de:'die Gabel'},
+      {es:'la cuchara', de:'der Löffel'}, {es:'el cuchillo', de:'das Messer'},
+      {es:'el plato', de:'der Teller'}, {es:'la taza', de:'die Tasse'},
+      {es:'la botella', de:'die Flasche'}, {es:'el desayuno', de:'das Frühstück'},
+      {es:'el almuerzo', de:'das Mittagessen'}, {es:'la cena', de:'das Abendessen'},
+      {es:'el té', de:'der Tee'}, {es:'la ternera', de:'das Rindfleisch'},
+      // Verben
+      {es:'comer', de:'essen'}, {es:'beber', de:'trinken'},
+      {es:'cocinar', de:'kochen'}, {es:'mezclar', de:'mischen'},
+      {es:'oler', de:'riechen'}, {es:'probar', de:'probieren/kosten'}
+    ]
+  },
+  // ── 3. ZUHAUSE ────────────────────────────────────────────
+  {
+    id: 'hogar',
+    name: 'Zuhause',
+    emoji: '🏠',
+    color: '#9b59b6',
+    locked: true,
+    vocab: [
+      {es:'la mesa', de:'der Tisch'}, {es:'la silla', de:'der Stuhl'},
+      {es:'la cama', de:'das Bett'}, {es:'la ventana', de:'das Fenster'},
+      {es:'la puerta', de:'die Tür'}, {es:'el dormitorio', de:'das Schlafzimmer'},
+      {es:'la cocina', de:'die Küche'}, {es:'el baño', de:'das Badezimmer'},
+      {es:'el libro', de:'das Buch'}, {es:'la llave', de:'der Schlüssel'},
+      {es:'el suelo', de:'der Boden'}, {es:'el techo', de:'die Decke'},
+      {es:'la pared', de:'die Wand'}, {es:'el jardín', de:'der Garten'},
+      {es:'el teléfono', de:'das Telefon'}, {es:'la caja', de:'die Schachtel'},
+      {es:'el regalo', de:'das Geschenk'}, {es:'la bolsa', de:'die Tasche'},
+      {es:'el sueño', de:'der Traum'}, {es:'el papel', de:'das Papier'},
+      {es:'la carta', de:'der Brief'}, {es:'la nota', de:'die Notiz'},
+      {es:'la cerradura', de:'das Schloss'}, {es:'el lápiz', de:'der Bleistift'},
+      {es:'el bolígrafo', de:'der Kugelschreiber'}, {es:'la fotografía', de:'das Foto'},
+      {es:'el jabón', de:'die Seife'}, {es:'el anillo', de:'der Ring'},
+      {es:'la herramienta', de:'das Werkzeug'}, {es:'la tarjeta', de:'die Karte'},
+      // Verben
+      {es:'dormir', de:'schlafen'}, {es:'soñar', de:'träumen'},
+      {es:'limpiar', de:'putzen/reinigen'}, {es:'lavar', de:'waschen'},
+      {es:'abrir', de:'öffnen'}, {es:'cerrar', de:'schließen'},
+      {es:'escribir', de:'schreiben'}, {es:'leer', de:'lesen'},
+      {es:'construir', de:'bauen'}, {es:'llamar', de:'anrufen'},
+      {es:'estar de pie', de:'stehen'}, {es:'sentarse', de:'sitzen'},
+      {es:'acostarse', de:'hinlegen/liegen'}
+    ]
+  },
+  // ── 4. ADJEKTIVE ──────────────────────────────────────────
+  {
+    id: 'adjetivos',
+    name: 'Adjektive',
+    emoji: '✨',
+    color: '#a78bfa',
+    locked: true,
+    vocab: [
+      {es:'largo', de:'lang'}, {es:'corto', de:'kurz'},
+      {es:'alto', de:'groß/hoch'}, {es:'bajo', de:'klein/niedrig'},
+      {es:'ancho', de:'breit'}, {es:'estrecho', de:'schmal'},
+      {es:'grande', de:'groß'}, {es:'pequeño', de:'klein'},
+      {es:'lento', de:'langsam'}, {es:'rápido', de:'schnell'},
+      {es:'caliente', de:'heiß'}, {es:'frío', de:'kalt'},
+      {es:'cálido', de:'warm'}, {es:'fresco', de:'kühl'},
+      {es:'nuevo', de:'neu'}, {es:'viejo', de:'alt (neu)'},
+      {es:'joven', de:'jung'}, {es:'bueno', de:'gut'},
+      {es:'malo', de:'schlecht'}, {es:'mojado', de:'nass'},
+      {es:'seco', de:'trocken'}, {es:'enfermo', de:'krank'},
+      {es:'sano', de:'gesund'}, {es:'fuerte', de:'stark'},
+      {es:'débil', de:'schwach'}, {es:'feliz', de:'glücklich'},
+      {es:'triste', de:'traurig'}, {es:'hermoso', de:'schön'},
+      {es:'feo', de:'hässlich'}, {es:'limpio', de:'sauber'},
+      {es:'sucio', de:'schmutzig'}, {es:'rico', de:'reich'},
+      {es:'pobre', de:'arm'}, {es:'caro', de:'teuer'},
+      {es:'barato', de:'billig'}, {es:'pesado', de:'schwer'},
+      {es:'ligero', de:'leicht'}, {es:'oscuro', de:'dunkel'},
+      {es:'claro', de:'hell'}, {es:'famoso', de:'berühmt'},
+      {es:'vivo', de:'lebendig'}, {es:'muerto', de:'tot'},
+      {es:'duro', de:'hart'}, {es:'suave', de:'weich'}
+    ]
+  },
+  // ── 5. MENSCHEN & FAMILIE ─────────────────────────────────
+  {
+    id: 'personas',
+    name: 'Menschen & Familie',
+    emoji: '👨‍👩‍👧',
+    color: '#e74c3c',
+    locked: true,
+    vocab: [
+      {es:'la madre', de:'die Mutter'}, {es:'el padre', de:'der Vater'},
+      {es:'el hijo', de:'der Sohn'}, {es:'la hija', de:'die Tochter'},
+      {es:'el hermano', de:'der Bruder'}, {es:'la hermana', de:'die Schwester'},
+      {es:'el abuelo', de:'der Großvater'}, {es:'la abuela', de:'die Großmutter'},
+      {es:'el marido', de:'der Ehemann'}, {es:'la esposa', de:'die Ehefrau'},
+      {es:'el niño', de:'das Kind'}, {es:'el amigo', de:'der Freund'},
+      {es:'el hombre', de:'der Mann'}, {es:'la mujer', de:'die Frau'},
+      {es:'el rey', de:'der König'}, {es:'la reina', de:'die Königin'},
+      {es:'el vecino', de:'der Nachbar'}, {es:'el bebé', de:'das Baby'},
+      {es:'el chico', de:'der Junge'}, {es:'la chica', de:'das Mädchen'},
+      {es:'el adulto', de:'der Erwachsene'}, {es:'el ser humano', de:'der Mensch'},
+      {es:'el presidente', de:'der Präsident'}, {es:'la persona', de:'die Person'},
+      {es:'el jugador', de:'der Spieler'}, {es:'la víctima', de:'das Opfer'},
+      {es:'la multitud', de:'die Menge'},
+      // Verben
+      {es:'hablar', de:'sprechen/sagen'}, {es:'escuchar', de:'zuhören'},
+      {es:'amar', de:'lieben'}, {es:'besar', de:'küssen'},
+      {es:'reír', de:'lachen'}, {es:'llorar', de:'weinen'},
+      {es:'casarse', de:'heiraten'}, {es:'rezar', de:'beten'},
+      // Pronomen
+      {es:'yo', de:'ich'}, {es:'tú', de:'du'},
+      {es:'él', de:'er'}, {es:'ella', de:'sie (singular)'},
+      {es:'nosotros', de:'wir'}, {es:'vosotros', de:'ihr'},
+      {es:'ellos/ellas', de:'sie (plural)'}
+    ]
+  },
+  // ── 6. BERUFE ─────────────────────────────────────────────
+  {
+    id: 'profesiones',
+    name: 'Berufe',
+    emoji: '👔',
+    color: '#1b9aaa',
+    locked: true,
+    vocab: [
+      {es:'el médico', de:'der Arzt'}, {es:'el maestro', de:'der Lehrer'},
+      {es:'el estudiante', de:'der Student'}, {es:'el abogado', de:'der Anwalt'},
+      {es:'el paciente', de:'der Patient'}, {es:'el camarero', de:'der Kellner'},
+      {es:'el secretario', de:'der Sekretär'}, {es:'el sacerdote', de:'der Priester'},
+      {es:'el policía', de:'der Polizist'}, {es:'el ejército', de:'die Armee'},
+      {es:'el soldado', de:'der Soldat'}, {es:'el artista', de:'der Künstler'},
+      {es:'el autor', de:'der Autor'}, {es:'el director', de:'der Manager'},
+      {es:'el reportero', de:'der Reporter'}, {es:'el actor', de:'der Schauspieler'},
+      {es:'el trabajo', de:'die Arbeit/der Beruf'}, {es:'el jefe', de:'der Chef'},
+      {es:'el cocinero', de:'der Koch'}, {es:'el conductor', de:'der Fahrer'},
+      {es:'el piloto', de:'der Pilot'}, {es:'el ingeniero', de:'der Ingenieur'},
+      {es:'el periodista', de:'der Journalist'}, {es:'el científico', de:'der Wissenschaftler'},
+      // Verben
+      {es:'trabajar', de:'arbeiten'}, {es:'enseñar', de:'unterrichten/lehren'},
+      {es:'aprender', de:'lernen'}, {es:'ganar', de:'gewinnen/verdienen'},
+      {es:'perder', de:'verlieren'}, {es:'firmar', de:'unterschreiben'}
+    ]
+  },
+  // ── 7. KLEIDUNG ───────────────────────────────────────────
+  {
+    id: 'ropa',
+    name: 'Kleidung',
+    emoji: '👗',
+    color: '#e91e8c',
+    locked: true,
+    vocab: [
+      {es:'el sombrero', de:'der Hut'}, {es:'el vestido', de:'das Kleid'},
+      {es:'el traje', de:'der Anzug'}, {es:'la falda', de:'der Rock'},
+      {es:'la camisa', de:'das Hemd'}, {es:'la camiseta', de:'das T-Shirt'},
+      {es:'los pantalones', de:'die Hose'}, {es:'los zapatos', de:'die Schuhe'},
+      {es:'el bolsillo', de:'die Tasche (Hosen-)'}, {es:'el abrigo', de:'der Mantel'},
+      {es:'la mancha', de:'der Fleck'}, {es:'la ropa', de:'die Kleidung'},
+      {es:'el calcetín', de:'die Socke'}, {es:'la bufanda', de:'der Schal'},
+      {es:'los guantes', de:'die Handschuhe'}, {es:'el cinturón', de:'der Gürtel'},
+      {es:'la chaqueta', de:'die Jacke'}, {es:'el pijama', de:'der Schlafanzug'},
+      {es:'el jersey', de:'der Pullover'}, {es:'las gafas', de:'die Brille'},
+      // Verben
+      {es:'llevar (ropa)', de:'tragen (Kleidung)'}, {es:'ponerse', de:'anziehen'},
+      {es:'quitarse', de:'ausziehen'}, {es:'colgar', de:'hängen'}
+    ]
+  },
+  // ── 8. NATUR ──────────────────────────────────────────────
+  {
+    id: 'naturaleza',
+    name: 'Natur',
+    emoji: '🌿',
+    color: '#27ae60',
+    locked: true,
+    vocab: [
+      {es:'el mar', de:'das Meer'}, {es:'el océano', de:'der Ozean'},
+      {es:'el río', de:'der Fluss'}, {es:'la montaña', de:'der Berg'},
+      {es:'la lluvia', de:'der Regen'}, {es:'la nieve', de:'der Schnee'},
+      {es:'el árbol', de:'der Baum'}, {es:'el sol', de:'die Sonne'},
+      {es:'la luna', de:'der Mond'}, {es:'el bosque', de:'der Wald'},
+      {es:'el cielo', de:'der Himmel'}, {es:'la planta', de:'die Pflanze'},
+      {es:'el viento', de:'der Wind'}, {es:'el lago', de:'der See'},
+      {es:'la estrella', de:'der Stern'}, {es:'la playa', de:'der Strand'},
+      {es:'el fuego', de:'das Feuer'}, {es:'el hielo', de:'das Eis'},
+      {es:'la isla', de:'die Insel'}, {es:'la hierba', de:'das Gras'},
+      {es:'la flor', de:'die Blume'}, {es:'el valle', de:'das Tal'},
+      {es:'la hoja', de:'das Blatt'}, {es:'el aire', de:'die Luft'},
+      {es:'la arena', de:'der Sand'}, {es:'la ola', de:'die Welle'},
+      {es:'el calor', de:'die Hitze'}, {es:'la nube', de:'die Wolke'},
+      {es:'el rayo', de:'der Blitz'}, {es:'el mundo', de:'die Welt'},
+      // Verben
+      {es:'quemar', de:'brennen/verbrennen'}, {es:'derretir', de:'schmelzen'},
+      {es:'explotar', de:'explodieren'}, {es:'crecer', de:'wachsen'},
+      {es:'soplar', de:'blasen/wehen'}, {es:'cavar', de:'graben'}
+    ]
+  },
+  // ── 9. KÖRPER ─────────────────────────────────────────────
+  {
+    id: 'cuerpo',
+    name: 'Körper',
+    emoji: '🫀',
+    color: '#e8b4b8',
+    locked: true,
+    vocab: [
+      {es:'la cabeza', de:'der Kopf'}, {es:'el cuello', de:'der Hals'},
+      {es:'la cara', de:'das Gesicht'}, {es:'la barba', de:'der Bart'},
+      {es:'el pelo', de:'das Haar'}, {es:'el ojo', de:'das Auge'},
+      {es:'la boca', de:'der Mund'}, {es:'el labio', de:'die Lippe'},
+      {es:'la nariz', de:'die Nase'}, {es:'el diente', de:'der Zahn'},
+      {es:'la oreja', de:'das Ohr'}, {es:'la lágrima', de:'die Träne'},
+      {es:'la lengua', de:'die Zunge'}, {es:'la espalda', de:'der Rücken'},
+      {es:'el dedo del pie', de:'der Zeh'}, {es:'el dedo', de:'der Finger'},
+      {es:'el pie', de:'der Fuß'}, {es:'la mano', de:'die Hand'},
+      {es:'la pierna', de:'das Bein'}, {es:'el brazo', de:'der Arm'},
+      {es:'el hombro', de:'die Schulter'}, {es:'el corazón', de:'das Herz'},
+      {es:'la sangre', de:'das Blut'}, {es:'el cerebro', de:'das Gehirn'},
+      {es:'la rodilla', de:'das Knie'}, {es:'el hueso', de:'der Knochen'},
+      {es:'la voz', de:'die Stimme'}, {es:'la piel', de:'die Haut'},
+      {es:'el músculo', de:'der Muskel'}, {es:'el pulmón', de:'die Lunge'},
+      // Verben
+      {es:'ver', de:'sehen'}, {es:'oír', de:'hören'},
+      {es:'tocar', de:'berühren'}, {es:'saborear', de:'schmecken'},
+      {es:'sonreír', de:'lächeln'}, {es:'sudar', de:'schwitzen'},
+      {es:'respirar', de:'atmen'}, {es:'morir', de:'sterben'},
+      // Zusätzliche Nomen
+      {es:'el dolor', de:'der Schmerz'}, {es:'la herida', de:'die Verletzung'},
+      {es:'el veneno', de:'das Gift'}, {es:'la droga', de:'die Droge'},
+      {es:'el sexo (acto)', de:'der Sex'}, {es:'el sexo (género)', de:'das Geschlecht'}
+    ]
+  },
+  // ── 10. FARBEN & FORMEN ───────────────────────────────────
+  {
+    id: 'colores',
+    name: 'Farben & Formen',
+    emoji: '🎨',
+    color: '#ff6b6b',
+    locked: true,
+    vocab: [
+      {es:'rojo', de:'rot'}, {es:'verde', de:'grün'},
+      {es:'azul', de:'blau'}, {es:'amarillo', de:'gelb'},
+      {es:'marrón', de:'braun'}, {es:'rosa', de:'rosa/pink'},
+      {es:'naranja', de:'orange'}, {es:'negro', de:'schwarz'},
+      {es:'blanco', de:'weiß'}, {es:'gris', de:'grau'},
+      {es:'el color', de:'die Farbe'}, {es:'el círculo', de:'der Kreis'},
+      {es:'el cuadrado', de:'das Quadrat'}, {es:'el triángulo', de:'das Dreieck'},
+      {es:'el borde', de:'der Rand/die Kante'}, {es:'la esquina', de:'die Ecke'},
+      {es:'el punto', de:'der Punkt'}, {es:'el patrón', de:'das Muster'},
+      {es:'la imagen', de:'das Bild'}, {es:'la luz', de:'das Licht'},
+      {es:'el sonido', de:'der Klang/das Geräusch'}, {es:'el agujero', de:'das Loch'},
+      {es:'el vidrio', de:'das Glas'}, {es:'el metal', de:'das Metall'},
+      {es:'la piedra', de:'der Stein'}, {es:'la madera', de:'das Holz'},
+      {es:'el oro', de:'das Gold'}, {es:'la plata', de:'das Silber'},
+      {es:'el diamante', de:'der Diamant'}, {es:'el polvo', de:'der Staub'},
+      // Verben
+      {es:'pintar', de:'malen'}, {es:'dibujar', de:'zeichnen'},
+      {es:'doblar', de:'biegen/falten'}, {es:'mezclar colores', de:'Farben mischen'}
+    ]
+  },
+  // ── 11. ZEIT ──────────────────────────────────────────────
+  {
+    id: 'tiempo',
+    name: 'Zeit',
+    emoji: '⏰',
+    color: '#4fc3f7',
+    locked: true,
+    vocab: [
+      {es:'el lunes', de:'der Montag'}, {es:'el martes', de:'der Dienstag'},
+      {es:'el miércoles', de:'der Mittwoch'}, {es:'el jueves', de:'der Donnerstag'},
+      {es:'el viernes', de:'der Freitag'}, {es:'el sábado', de:'der Samstag'},
+      {es:'el domingo', de:'der Sonntag'}, {es:'enero', de:'Januar'},
+      {es:'febrero', de:'Februar'}, {es:'marzo', de:'März'},
+      {es:'abril', de:'April'}, {es:'mayo', de:'Mai'},
+      {es:'junio', de:'Juni'}, {es:'julio', de:'Juli'},
+      {es:'agosto', de:'August'}, {es:'septiembre', de:'September'},
+      {es:'octubre', de:'Oktober'}, {es:'noviembre', de:'November'},
+      {es:'diciembre', de:'Dezember'}, {es:'el verano', de:'der Sommer'},
+      {es:'la primavera', de:'der Frühling'}, {es:'el invierno', de:'der Winter'},
+      {es:'el otoño', de:'der Herbst'}, {es:'el año', de:'das Jahr'},
+      {es:'el mes', de:'der Monat'}, {es:'la semana', de:'die Woche'},
+      {es:'el día', de:'der Tag'}, {es:'la hora', de:'die Stunde'},
+      {es:'el minuto', de:'die Minute'}, {es:'el segundo', de:'die Sekunde'},
+      {es:'la mañana', de:'der Morgen'}, {es:'la tarde', de:'der Nachmittag'},
+      {es:'la noche', de:'die Nacht'}, {es:'el tiempo', de:'die Zeit'},
+      // Verben
+      {es:'contar', de:'zählen'}, {es:'esperar', de:'warten'},
+      {es:'despertar', de:'aufwachen'}, {es:'pasar', de:'vergehen/vorbeigehen'}
+    ]
+  },
+  // ── 12. GESELLSCHAFT ──────────────────────────────────────
+  {
+    id: 'sociedad',
+    name: 'Gesellschaft',
+    emoji: '🏛️',
+    color: '#e74c3c',
+    locked: true,
+    vocab: [
+      {es:'el dinero', de:'das Geld'}, {es:'el precio', de:'der Preis'},
+      {es:'la guerra', de:'der Krieg'}, {es:'la paz', de:'der Frieden'},
+      {es:'la elección', de:'die Wahl'}, {es:'el deporte', de:'der Sport'},
+      {es:'el juego', de:'das Spiel'}, {es:'la ley', de:'das Gesetz'},
+      {es:'el contrato', de:'der Vertrag'}, {es:'la ciencia', de:'die Wissenschaft'},
+      {es:'la tecnología', de:'die Technologie'}, {es:'la energía', de:'die Energie'},
+      {es:'la religión', de:'die Religion'}, {es:'la muerte', de:'der Tod'},
+      {es:'la medicina', de:'die Medizin'}, {es:'la prisión', de:'das Gefängnis'},
+      {es:'el ataque', de:'der Angriff'}, {es:'el arma', de:'die Waffe'},
+      {es:'el periódico', de:'die Zeitung'}, {es:'la revista', de:'die Zeitschrift'},
+      {es:'la música', de:'die Musik'}, {es:'la película', de:'der Film'},
+      {es:'el arte', de:'die Kunst'}, {es:'la canción', de:'das Lied'},
+      {es:'el instrumento', de:'das Instrument'}, {es:'la raza', de:'die Rasse/Ethnie'},
+      {es:'el equipo', de:'das Team'}, {es:'la relación', de:'die Beziehung'},
+      {es:'el signo', de:'das Zeichen'}, {es:'Dios', de:'Gott'},
+      // Verben
+      {es:'comprar', de:'kaufen'}, {es:'vender', de:'verkaufen'},
+      {es:'pagar', de:'bezahlen'}, {es:'votar', de:'wählen/abstimmen'},
+      {es:'luchar', de:'kämpfen'}, {es:'atacar', de:'angreifen'},
+      {es:'matar', de:'töten'}, {es:'cantar', de:'singen'},
+      {es:'bailar', de:'tanzen'},
+      // Zusätzliche Nomen & Verben
+      {es:'el asesinato', de:'der Mord'}, {es:'el cielo (religión)', de:'der Himmel (Religion)'},
+      {es:'el paraíso', de:'das Paradies'}, {es:'el infierno', de:'die Hölle'},
+      {es:'romper', de:'brechen'}, {es:'golpear', de:'schlagen'}
+    ]
+  },
+  // ── 13. ORTE & GEBÄUDE ────────────────────────────────────
+  {
+    id: 'lugares',
+    name: 'Orte & Gebäude',
+    emoji: '🏙️',
+    color: '#f0a500',
+    locked: true,
+    vocab: [
+      {es:'la ciudad', de:'die Stadt'}, {es:'la casa', de:'das Haus'},
+      {es:'el apartamento', de:'die Wohnung'}, {es:'la calle', de:'die Straße'},
+      {es:'el aeropuerto', de:'der Flughafen'}, {es:'la estación de tren', de:'der Bahnhof'},
+      {es:'el puente', de:'die Brücke'}, {es:'el hotel', de:'das Hotel'},
+      {es:'el restaurante', de:'das Restaurant'}, {es:'la granja', de:'der Bauernhof'},
+      {es:'el tribunal', de:'das Gericht'}, {es:'la escuela', de:'die Schule'},
+      {es:'la oficina', de:'das Büro'}, {es:'la habitación', de:'das Zimmer'},
+      {es:'el pueblo', de:'das Dorf'}, {es:'la universidad', de:'die Universität'},
+      {es:'el club', de:'der Club'}, {es:'el bar', de:'die Bar'},
+      {es:'el parque', de:'der Park'}, {es:'el campamento', de:'das Lager'},
+      {es:'la tienda', de:'der Laden/das Geschäft'}, {es:'el teatro', de:'das Theater'},
+      {es:'la biblioteca', de:'die Bibliothek'}, {es:'el hospital', de:'das Krankenhaus'},
+      {es:'la iglesia', de:'die Kirche'}, {es:'el mercado', de:'der Markt'},
+      {es:'el edificio', de:'das Gebäude'}, {es:'el banco', de:'die Bank'},
+      {es:'el país', de:'das Land'}, {es:'el suelo', de:'der Boden'},
+      {es:'el espacio exterior', de:'der Weltraum'},
+      // Verben
+      {es:'ir', de:'gehen/fahren'}, {es:'seguir', de:'folgen'},
+      {es:'parar', de:'anhalten/aufhören'}, {es:'caminar', de:'spazieren/laufen'},
+      {es:'conducir', de:'fahren (Auto)'}, {es:'visitar', de:'besuchen'}
+    ]
+  },
+  // ── 14. ELEKTRONIK & TECHNIK ──────────────────────────────
+  {
+    id: 'electronica',
+    name: 'Elektronik',
+    emoji: '💻',
+    color: '#00b4d8',
+    locked: true,
+    vocab: [
+      {es:'el reloj', de:'die Uhr'}, {es:'la lámpara', de:'die Lampe'},
+      {es:'el ventilador', de:'der Ventilator'}, {es:'el móvil', de:'das Handy'},
+      {es:'la red', de:'das Netzwerk'}, {es:'el ordenador', de:'der Computer'},
+      {es:'el programa', de:'das Programm'}, {es:'el portátil', de:'der Laptop'},
+      {es:'la pantalla', de:'der Bildschirm'}, {es:'la cámara', de:'die Kamera'},
+      {es:'la televisión', de:'der Fernseher'}, {es:'la radio', de:'das Radio'},
+      {es:'el cable', de:'das Kabel'}, {es:'la batería', de:'der Akku/die Batterie'},
+      {es:'el teclado', de:'die Tastatur'}, {es:'el ratón', de:'die Maus (Computer)'},
+      {es:'la impresora', de:'der Drucker'}, {es:'el altavoz', de:'der Lautsprecher'},
+      {es:'el micrófono', de:'das Mikrofon'}, {es:'los auriculares', de:'die Kopfhörer'},
+      {es:'el cargador', de:'das Ladegerät'}, {es:'la aplicación', de:'die App'},
+      {es:'el archivo', de:'die Datei'}, {es:'el sitio web', de:'die Website'},
+      // Verben
+      {es:'encender', de:'einschalten'}, {es:'apagar', de:'ausschalten'},
+      {es:'cargar', de:'aufladen'}, {es:'descargar', de:'herunterladen'},
+      {es:'buscar', de:'suchen'}, {es:'enviar', de:'senden/schicken'}
+    ]
+  },
+  // ── 15. TRANSPORT ─────────────────────────────────────────
+  {
+    id: 'transporte',
+    name: 'Transport',
+    emoji: '🚗',
+    color: '#48cae4',
+    locked: true,
+    vocab: [
+      {es:'el tren', de:'der Zug'}, {es:'el avión', de:'das Flugzeug'},
+      {es:'el coche', de:'das Auto'}, {es:'el camión', de:'der LKW'},
+      {es:'la bicicleta', de:'das Fahrrad'}, {es:'el autobús', de:'der Bus'},
+      {es:'el barco', de:'das Boot'}, {es:'el buque', de:'das Schiff'},
+      {es:'el neumático', de:'der Reifen'}, {es:'la gasolina', de:'das Benzin'},
+      {es:'el motor', de:'der Motor'}, {es:'el billete de tren', de:'die Fahrkarte'},
+      {es:'el transporte', de:'der Transport'}, {es:'el taxi', de:'das Taxi'},
+      {es:'el metro', de:'die U-Bahn'}, {es:'el camino', de:'der Weg'},
+      {es:'el puerto', de:'der Hafen'}, {es:'el semáforo', de:'die Ampel'},
+      {es:'el mapa', de:'die Karte/der Stadtplan'}, {es:'la maleta', de:'der Koffer'},
+      {es:'el pasaporte', de:'der Reisepass'}, {es:'el asiento', de:'der Sitz'},
+      // Verben
+      {es:'viajar', de:'reisen'}, {es:'volar (avión)', de:'fliegen (Flugzeug)'},
+      {es:'conducir', de:'fahren'}, {es:'nadar', de:'schwimmen'},
+      {es:'llegar', de:'ankommen'}, {es:'salir', de:'abfahren/abfliegen'},
+      {es:'subir', de:'einsteigen'}, {es:'bajar', de:'aussteigen'}
+    ]
+  },
+  // ── 16. RICHTUNGEN ────────────────────────────────────────
+  {
+    id: 'direcciones',
+    name: 'Richtungen',
+    emoji: '🧭',
+    color: '#90e0ef',
+    locked: true,
+    vocab: [
+      {es:'arriba', de:'oben'}, {es:'abajo', de:'unten'},
+      {es:'la izquierda', de:'links'}, {es:'la derecha', de:'rechts'},
+      {es:'recto', de:'geradeaus'}, {es:'el norte', de:'Norden'},
+      {es:'el sur', de:'Süden'}, {es:'el este', de:'Osten'},
+      {es:'el oeste', de:'Westen'}, {es:'dentro', de:'innen/drinnen'},
+      {es:'fuera', de:'außen/draußen'}, {es:'delante', de:'vorne'},
+      {es:'detrás', de:'hinten'}, {es:'al lado', de:'nebenan/daneben'},
+      {es:'cerca', de:'nah/in der Nähe'}, {es:'lejos', de:'weit/fern'},
+      {es:'encima', de:'oben drauf/über'}, {es:'debajo', de:'darunter/unter'},
+      {es:'entre', de:'zwischen'}, {es:'la dirección', de:'die Richtung'},
+      {es:'el mapa', de:'die Karte'}, {es:'el centro', de:'die Mitte/das Zentrum'},
+      // Verben
+      {es:'girar', de:'abbiegen/drehen'}, {es:'cruzar', de:'überqueren'},
+      {es:'doblar', de:'abbiegen'}, {es:'perderse', de:'sich verirren'},
+      {es:'tirar', de:'ziehen/werfen'}, {es:'empujar', de:'drücken/schieben'},
+      {es:'encontrar', de:'finden'}, {es:'pasar', de:'vorbeigehen/passieren'}
+    ]
+  },
+  // ── 17. ZAHLEN & MASSE ────────────────────────────────────
+  {
+    id: 'numeros',
+    name: 'Zahlen & Maße',
+    emoji: '🔢',
+    color: '#caf0f8',
+    locked: true,
+    vocab: [
+      {es:'uno', de:'eins'}, {es:'dos', de:'zwei'},
+      {es:'tres', de:'drei'}, {es:'cuatro', de:'vier'},
+      {es:'cinco', de:'fünf'}, {es:'seis', de:'sechs'},
+      {es:'siete', de:'sieben'}, {es:'ocho', de:'acht'},
+      {es:'nueve', de:'neun'}, {es:'diez', de:'zehn'},
+      {es:'veinte', de:'zwanzig'}, {es:'treinta', de:'dreißig'},
+      {es:'cien', de:'hundert'}, {es:'mil', de:'tausend'},
+      {es:'un millón', de:'eine Million'}, {es:'primero', de:'erste(r/s)'},
+      {es:'segundo', de:'zweite(r/s)'}, {es:'tercero', de:'dritte(r/s)'},
+      {es:'el metro', de:'der Meter'}, {es:'el centímetro', de:'der Zentimeter'},
+      {es:'el kilogramo', de:'das Kilogramm'}, {es:'la mitad', de:'die Hälfte'},
+      {es:'la temperatura', de:'die Temperatur'}, {es:'el peso', de:'das Gewicht'},
+      {es:'la fecha', de:'das Datum'}, {es:'el número', de:'die Zahl'},
+      {es:'más', de:'mehr/plus'}, {es:'menos', de:'weniger/minus'},
+      {es:'igual', de:'gleich'}, {es:'el doble', de:'das Doppelte'},
+      // Verben
+      {es:'contar', de:'zählen'}, {es:'medir', de:'messen'},
+      {es:'calcular', de:'rechnen/berechnen'}, {es:'pesar', de:'wiegen'}
+    ]
+  },
+  // ── 18. SPORT & BEWEGUNG ──────────────────────────────────
+  {
+    id: 'deporte',
+    name: 'Sport & Bewegung',
+    emoji: '⚽',
+    color: '#f72585',
+    locked: true,
+    vocab: [
+      {es:'la bola', de:'der Ball'}, {es:'la carrera', de:'das Rennen'},
+      {es:'el ejercicio', de:'die Übung/das Training'},
+      {es:'el deporte', de:'der Sport'},
+      // Verben der Bewegung
+      {es:'colgar', de:'hängen'}, {es:'sacudir', de:'schütteln'},
+      {es:'levantar', de:'heben'}, {es:'caer', de:'fallen'},
+      {es:'llevar/cargar', de:'tragen'}, {es:'disparar', de:'schießen'},
+      {es:'lanzar', de:'werfen'}, {es:'atrapar', de:'fangen'},
+      {es:'golpear', de:'schlagen'}, {es:'empujar', de:'drücken/schieben'},
+      {es:'tirar', de:'ziehen'}, {es:'correr', de:'rennen'},
+      {es:'saltar', de:'springen'}, {es:'nadar', de:'schwimmen'},
+      {es:'volar', de:'fliegen'}, {es:'trepar', de:'klettern'},
+      {es:'luchar', de:'kämpfen'}, {es:'ganar', de:'gewinnen'},
+      {es:'perder', de:'verlieren'}, {es:'marcar', de:'ein Tor schießen/markieren'},
+      {es:'entrenar', de:'trainieren'}, {es:'descansar', de:'sich ausruhen'}
+    ]
+  },
+  // ── 19. BONUS: GRAMMATIK ──────────────────────────────────
+  {
+    id: 'bonus',
+    name: 'Bonus: Grammatik',
+    emoji: '📚',
+    color: '#7b2d8b',
+    locked: true,
+    vocab: [
+      {es:'la vocal', de:'der Vokal'}, {es:'la consonante', de:'der Konsonant'},
+      {es:'el sustantivo', de:'das Nomen/Substantiv'}, {es:'el verbo', de:'das Verb'},
+      {es:'el adjetivo', de:'das Adjektiv'}, {es:'el pedazo', de:'das Stück'},
+      {es:'el artículo', de:'der Artikel'}, {es:'la frase', de:'der Satz'},
+      {es:'la palabra', de:'das Wort'}, {es:'el plural', de:'der Plural'},
+      {es:'el singular', de:'der Singular'}, {es:'masculino', de:'männlich'},
+      {es:'femenino', de:'weiblich'}, {es:'el tiempo verbal', de:'die Zeitform'},
+      {es:'el presente', de:'die Gegenwart'}, {es:'el pasado', de:'die Vergangenheit'},
+      {es:'el futuro', de:'die Zukunft'}, {es:'sí', de:'ja'},
+      {es:'no', de:'nein'}, {es:'quizás', de:'vielleicht'},
+      {es:'porque', de:'weil/denn'}, {es:'y', de:'und'},
+      {es:'o', de:'oder'}, {es:'pero', de:'aber'}
+    ]
+  }
+];
+
+
+
+// ════════════════════════════════════════════════════════════
+// LANGUAGE CONFIG
+// ════════════════════════════════════════════════════════════
+
+const LANGUAGES = {
+  es: { name: 'Spanisch', flag: '🇪🇸', nativeName: 'Español' },
+  fr: { name: 'Französisch', flag: '🇫🇷', nativeName: 'Français' },
+  nl: { name: 'Niederländisch', flag: '🇳🇱', nativeName: 'Nederlands' }
+};
+
+// ════════════════════════════════════════════════════════════
+// FR + NL TRANSLATIONS (keyed by Spanish word)
+// ════════════════════════════════════════════════════════════
+
+const TRANSLATIONS = {
+  'el perro':{'fr':'le chien','nl':'de hond'},'el gato':{'fr':'le chat','nl':'de kat'},
+  'el pez':{'fr':'le poisson','nl':'de vis'},'el pájaro':{'fr':"l'oiseau",'nl':'de vogel'},
+  'la vaca':{'fr':'la vache','nl':'de koe'},'el cerdo':{'fr':'le cochon','nl':'het varken'},
+  'el ratón':{'fr':'la souris','nl':'de muis'},'el caballo':{'fr':'le cheval','nl':'het paard'},
+  'el ala':{'fr':"l'aile",'nl':'de vleugel'},'el animal':{'fr':"l'animal",'nl':'het dier'},
+  'el tigre':{'fr':'le tigre','nl':'de tijger'},'el oso':{"fr":"l'ours",'nl':'de beer'},
+  'la serpiente':{'fr':'le serpent','nl':'de slang'},'el elefante':{"fr":"l'éléphant",'nl':'de olifant'},
+  'el lobo':{'fr':'le loup','nl':'de wolf'},'el león':{'fr':'le lion','nl':'de leeuw'},
+  'el mono':{'fr':'le singe','nl':'de aap'},'el conejo':{'fr':'le lapin','nl':'het konijn'},
+  'la oveja':{'fr':'le mouton','nl':'het schaap'},'el pato':{'fr':'le canard','nl':'de eend'},
+  'la araña':{"fr":"l'araignée",'nl':'de spin'},'la abeja':{"fr":"l'abeille",'nl':'de bij'},
+  'el delfín':{'fr':'le dauphin','nl':'de dolfijn'},'la tortuga':{'fr':'la tortue','nl':'de schildpad'},
+  'volar':{'fr':'voler','nl':'vliegen'},'nadar':{'fr':'nager','nl':'zwemmen'},
+  'correr':{'fr':'courir','nl':'rennen'},'saltar':{'fr':'sauter','nl':'springen'},
+  'alimentar':{'fr':'nourrir','nl':'voeden'},
+  'el pan':{'fr':'le pain','nl':'het brood'},'el queso':{'fr':'le fromage','nl':'de kaas'},
+  'el huevo':{"fr":"l'œuf",'nl':'het ei'},'la sopa':{'fr':'la soupe','nl':'de soep'},
+  'el pastel':{'fr':'le gâteau','nl':'de taart'},'el pollo':{'fr':'le poulet','nl':'de kip'},
+  'la manzana':{'fr':'la pomme','nl':'de appel'},'el plátano':{'fr':'la banane','nl':'de banaan'},
+  'el arroz':{'fr':'le riz','nl':'de rijst'},'la sal':{'fr':'le sel','nl':'het zout'},
+  'el café':{'fr':'le café','nl':'de koffie'},'el vino':{'fr':'le vin','nl':'de wijn'},
+  'la leche':{'fr':'le lait','nl':'de melk'},'el agua':{"fr":"l'eau",'nl':'het water'},
+  'la cerveza':{'fr':'la bière','nl':'het bier'},'el zumo':{'fr':'le jus','nl':'het sap'},
+  'el azúcar':{'fr':'le sucre','nl':'de suiker'},'el aceite':{"fr":"l'huile",'nl':'de olie'},
+  'la naranja':{"fr":"l'orange",'nl':'de sinaasappel'},'el limón':{'fr':'le citron','nl':'de citroen'},
+  'el maíz':{'fr':'le maïs','nl':'de maïs'},'el tenedor':{'fr':'la fourchette','nl':'de vork'},
+  'la cuchara':{'fr':'la cuillère','nl':'de lepel'},'el cuchillo':{'fr':'le couteau','nl':'het mes'},
+  'el plato':{"fr":"l'assiette",'nl':'het bord'},'la taza':{'fr':'la tasse','nl':'de kop'},
+  'la botella':{'fr':'la bouteille','nl':'de fles'},'el desayuno':{'fr':'le petit-déjeuner','nl':'het ontbijt'},
+  'el almuerzo':{'fr':'le déjeuner','nl':'de lunch'},'la cena':{'fr':'le dîner','nl':'het avondeten'},
+  'el té':{'fr':'le thé','nl':'de thee'},'la ternera':{'fr':'le veau','nl':'het kalfsvlees'},
+  'comer':{'fr':'manger','nl':'eten'},'beber':{'fr':'boire','nl':'drinken'},
+  'cocinar':{'fr':'cuisiner','nl':'koken'},'mezclar':{'fr':'mélanger','nl':'mengen'},
+  'oler':{'fr':'sentir','nl':'ruiken'},'probar':{'fr':'goûter','nl':'proeven'},
+  'la mesa':{'fr':'la table','nl':'de tafel'},'la silla':{'fr':'la chaise','nl':'de stoel'},
+  'la cama':{'fr':'le lit','nl':'het bed'},'la ventana':{'fr':'la fenêtre','nl':'het raam'},
+  'la puerta':{'fr':'la porte','nl':'de deur'},'el dormitorio':{'fr':'la chambre','nl':'de slaapkamer'},
+  'la cocina':{'fr':'la cuisine','nl':'de keuken'},'el baño':{'fr':'la salle de bain','nl':'de badkamer'},
+  'el libro':{'fr':'le livre','nl':'het boek'},'la llave':{'fr':'la clé','nl':'de sleutel'},
+  'el suelo':{'fr':'le sol','nl':'de vloer'},'el techo':{'fr':'le plafond','nl':'het plafond'},
+  'la pared':{'fr':'le mur','nl':'de muur'},'el jardín':{'fr':'le jardin','nl':'de tuin'},
+  'el teléfono':{'fr':'le téléphone','nl':'de telefoon'},'la caja':{'fr':'la boîte','nl':'de doos'},
+  'el regalo':{'fr':'le cadeau','nl':'het cadeau'},'la bolsa':{'fr':'le sac','nl':'de tas'},
+  'el sueño':{'fr':'le rêve','nl':'de droom'},'el papel':{'fr':'le papier','nl':'het papier'},
+  'la carta':{'fr':'la lettre','nl':'de brief'},'la nota':{'fr':'la note','nl':'de notitie'},
+  'la cerradura':{'fr':'la serrure','nl':'het slot'},'el lápiz':{'fr':'le crayon','nl':'het potlood'},
+  'el bolígrafo':{'fr':'le stylo','nl':'de pen'},'la fotografía':{'fr':'la photo','nl':'de foto'},
+  'el jabón':{'fr':'le savon','nl':'de zeep'},'el anillo':{'fr':'la bague','nl':'de ring'},
+  'la herramienta':{"fr":"l'outil",'nl':'het gereedschap'},'la tarjeta':{'fr':'la carte','nl':'de kaart'},
+  'dormir':{'fr':'dormir','nl':'slapen'},'soñar':{'fr':'rêver','nl':'dromen'},
+  'limpiar':{'fr':'nettoyer','nl':'schoonmaken'},'lavar':{'fr':'laver','nl':'wassen'},
+  'abrir':{'fr':'ouvrir','nl':'openen'},'cerrar':{'fr':'fermer','nl':'sluiten'},
+  'escribir':{'fr':'écrire','nl':'schrijven'},'leer':{'fr':'lire','nl':'lezen'},
+  'construir':{'fr':'construire','nl':'bouwen'},'llamar':{'fr':'appeler','nl':'bellen'},
+  'estar de pie':{'fr':'être debout','nl':'staan'},'sentarse':{"fr":"s'asseoir",'nl':'zitten'},
+  'acostarse':{'fr':'se coucher','nl':'liggen'},
+  'largo':{'fr':'long','nl':'lang'},'corto':{'fr':'court','nl':'kort'},
+  'alto':{'fr':'grand/haut','nl':'groot/hoog'},'bajo':{'fr':'petit/bas','nl':'klein/laag'},
+  'ancho':{'fr':'large','nl':'breed'},'estrecho':{'fr':'étroit','nl':'smal'},
+  'grande':{'fr':'grand','nl':'groot'},'pequeño':{'fr':'petit','nl':'klein'},
+  'lento':{'fr':'lent','nl':'langzaam'},'rápido':{'fr':'rapide','nl':'snel'},
+  'caliente':{'fr':'chaud','nl':'heet'},'frío':{'fr':'froid','nl':'koud'},
+  'cálido':{'fr':'tiède','nl':'warm'},'fresco':{'fr':'frais','nl':'koel'},
+  'nuevo':{'fr':'nouveau','nl':'nieuw'},'viejo':{'fr':'vieux','nl':'oud'},
+  'joven':{'fr':'jeune','nl':'jong'},'bueno':{'fr':'bon','nl':'goed'},
+  'malo':{'fr':'mauvais','nl':'slecht'},'mojado':{'fr':'mouillé','nl':'nat'},
+  'seco':{'fr':'sec','nl':'droog'},'enfermo':{'fr':'malade','nl':'ziek'},
+  'sano':{'fr':'en bonne santé','nl':'gezond'},'fuerte':{'fr':'fort','nl':'sterk'},
+  'débil':{'fr':'faible','nl':'zwak'},'feliz':{'fr':'heureux','nl':'gelukkig'},
+  'triste':{'fr':'triste','nl':'verdrietig'},'hermoso':{'fr':'beau','nl':'mooi'},
+  'feo':{'fr':'laid','nl':'lelijk'},'limpio':{'fr':'propre','nl':'schoon'},
+  'sucio':{'fr':'sale','nl':'vies'},'rico':{'fr':'riche','nl':'rijk'},
+  'pobre':{'fr':'pauvre','nl':'arm'},'caro':{'fr':'cher','nl':'duur'},
+  'barato':{'fr':'bon marché','nl':'goedkoop'},'pesado':{'fr':'lourd','nl':'zwaar'},
+  'ligero':{'fr':'léger','nl':'licht'},'oscuro':{'fr':'sombre','nl':'donker'},
+  'claro':{'fr':'clair','nl':'helder'},'famoso':{'fr':'célèbre','nl':'beroemd'},
+  'vivo':{'fr':'vivant','nl':'levend'},'muerto':{'fr':'mort','nl':'dood'},
+  'duro':{'fr':'dur','nl':'hard'},'suave':{'fr':'doux','nl':'zacht'},
+  'la madre':{'fr':'la mère','nl':'de moeder'},'el padre':{'fr':'le père','nl':'de vader'},
+  'el hijo':{'fr':'le fils','nl':'de zoon'},'la hija':{'fr':'la fille','nl':'de dochter'},
+  'el hermano':{'fr':'le frère','nl':'de broer'},'la hermana':{'fr':'la sœur','nl':'de zus'},
+  'el abuelo':{'fr':'le grand-père','nl':'de grootvader'},'la abuela':{'fr':'la grand-mère','nl':'de grootmoeder'},
+  'el marido':{'fr':'le mari','nl':'de echtgenoot'},'la esposa':{'fr':'la femme','nl':'de echtgenote'},
+  'el niño':{"fr":"l'enfant",'nl':'het kind'},'el amigo':{"fr":"l'ami",'nl':'de vriend'},
+  'el hombre':{"fr":"l'homme",'nl':'de man'},'la mujer':{'fr':'la femme','nl':'de vrouw'},
+  'el rey':{'fr':'le roi','nl':'de koning'},'la reina':{'fr':'la reine','nl':'de koningin'},
+  'el vecino':{'fr':'le voisin','nl':'de buurman'},'el bebé':{'fr':'le bébé','nl':'de baby'},
+  'el chico':{'fr':'le garçon','nl':'de jongen'},'la chica':{'fr':'la fille','nl':'het meisje'},
+  'el adulto':{"fr":"l'adulte",'nl':'de volwassene'},'el ser humano':{"fr":"l'être humain",'nl':'de mens'},
+  'el presidente':{'fr':'le président','nl':'de president'},'la persona':{'fr':'la personne','nl':'de persoon'},
+  'el jugador':{'fr':'le joueur','nl':'de speler'},'la víctima':{'fr':'la victime','nl':'het slachtoffer'},
+  'la multitud':{'fr':'la foule','nl':'de menigte'},
+  'hablar':{'fr':'parler','nl':'spreken'},'escuchar':{'fr':'écouter','nl':'luisteren'},
+  'amar':{'fr':'aimer','nl':'houden van'},'besar':{'fr':'embrasser','nl':'kussen'},
+  'reír':{'fr':'rire','nl':'lachen'},'llorar':{'fr':'pleurer','nl':'huilen'},
+  'casarse':{'fr':'se marier','nl':'trouwen'},'rezar':{'fr':'prier','nl':'bidden'},
+  'yo':{'fr':'je','nl':'ik'},'tú':{'fr':'tu','nl':'jij'},
+  'él':{'fr':'il','nl':'hij'},'ella':{'fr':'elle','nl':'zij'},
+  'nosotros':{'fr':'nous','nl':'wij'},'vosotros':{'fr':'vous','nl':'jullie'},
+  'ellos/ellas':{'fr':'ils/elles','nl':'zij (meervoud)'},
+  'el médico':{'fr':'le médecin','nl':'de dokter'},'el maestro':{'fr':'le professeur','nl':'de leraar'},
+  'el estudiante':{"fr":"l'étudiant",'nl':'de student'},'el abogado':{"fr":"l'avocat",'nl':'de advocaat'},
+  'el paciente':{'fr':'le patient','nl':'de patiënt'},'el camarero':{'fr':'le serveur','nl':'de ober'},
+  'el secretario':{'fr':'le secrétaire','nl':'de secretaris'},'el sacerdote':{'fr':'le prêtre','nl':'de priester'},
+  'el policía':{'fr':'le policier','nl':'de politieagent'},'el ejército':{"fr":"l'armée",'nl':'het leger'},
+  'el soldado':{'fr':'le soldat','nl':'de soldaat'},'el artista':{"fr":"l'artiste",'nl':'de kunstenaar'},
+  'el autor':{"fr":"l'auteur",'nl':'de auteur'},'el director':{'fr':'le directeur','nl':'de manager'},
+  'el reportero':{'fr':'le reporter','nl':'de verslaggever'},'el actor':{"fr":"l'acteur",'nl':'de acteur'},
+  'el trabajo':{'fr':'le travail','nl':'het werk'},'el jefe':{'fr':'le chef','nl':'de baas'},
+  'el cocinero':{'fr':'le cuisinier','nl':'de kok'},'el conductor':{'fr':'le conducteur','nl':'de chauffeur'},
+  'el piloto':{'fr':'le pilote','nl':'de piloot'},'el ingeniero':{"fr":"l'ingénieur",'nl':'de ingenieur'},
+  'el periodista':{'fr':'le journaliste','nl':'de journalist'},'el científico':{'fr':'le scientifique','nl':'de wetenschapper'},
+  'trabajar':{'fr':'travailler','nl':'werken'},'enseñar':{'fr':'enseigner','nl':'onderwijzen'},
+  'aprender':{'fr':'apprendre','nl':'leren'},'ganar':{'fr':'gagner','nl':'verdienen/winnen'},
+  'perder':{'fr':'perdre','nl':'verliezen'},'firmar':{'fr':'signer','nl':'ondertekenen'},
+  'el sombrero':{'fr':'le chapeau','nl':'de hoed'},'el vestido':{'fr':'la robe','nl':'de jurk'},
+  'el traje':{'fr':'le costume','nl':'het pak'},'la falda':{'fr':'la jupe','nl':'de rok'},
+  'la camisa':{'fr':'la chemise','nl':'het hemd'},'la camiseta':{'fr':'le t-shirt','nl':'het t-shirt'},
+  'los pantalones':{'fr':'le pantalon','nl':'de broek'},'los zapatos':{'fr':'les chaussures','nl':'de schoenen'},
+  'el bolsillo':{'fr':'la poche','nl':'de zak'},'el abrigo':{'fr':'le manteau','nl':'de jas'},
+  'la mancha':{'fr':'la tache','nl':'de vlek'},'la ropa':{'fr':'les vêtements','nl':'de kleding'},
+  'el calcetín':{'fr':'la chaussette','nl':'de sok'},'la bufanda':{"fr":"l'écharpe",'nl':'de sjaal'},
+  'los guantes':{'fr':'les gants','nl':'de handschoenen'},'el cinturón':{'fr':'la ceinture','nl':'de riem'},
+  'la chaqueta':{'fr':'la veste','nl':'het jasje'},'el pijama':{'fr':'le pyjama','nl':'de pyjama'},
+  'el jersey':{'fr':'le pull','nl':'de trui'},'las gafas':{'fr':'les lunettes','nl':'de bril'},
+  'llevar (ropa)':{'fr':'porter','nl':'dragen'},'ponerse':{'fr':'mettre','nl':'aantrekken'},
+  'quitarse':{'fr':'enlever','nl':'uittrekken'},'colgar':{'fr':'accrocher','nl':'hangen'},
+  'el mar':{'fr':'la mer','nl':'de zee'},'el océano':{"fr":"l'océan",'nl':'de oceaan'},
+  'el río':{'fr':'la rivière','nl':'de rivier'},'la montaña':{'fr':'la montagne','nl':'de berg'},
+  'la lluvia':{'fr':'la pluie','nl':'de regen'},'la nieve':{'fr':'la neige','nl':'de sneeuw'},
+  'el árbol':{"fr":"l'arbre",'nl':'de boom'},'el sol':{'fr':'le soleil','nl':'de zon'},
+  'la luna':{'fr':'la lune','nl':'de maan'},'el bosque':{'fr':'la forêt','nl':'het bos'},
+  'el cielo':{'fr':'le ciel','nl':'de hemel'},'la planta':{'fr':'la plante','nl':'de plant'},
+  'el viento':{'fr':'le vent','nl':'de wind'},'el lago':{'fr':'le lac','nl':'het meer'},
+  'la estrella':{"fr":"l'étoile",'nl':'de ster'},'la playa':{'fr':'la plage','nl':'het strand'},
+  'el fuego':{'fr':'le feu','nl':'het vuur'},'el hielo':{'fr':'la glace','nl':'het ijs'},
+  'la isla':{"fr":"l'île",'nl':'het eiland'},'la hierba':{"fr":"l'herbe",'nl':'het gras'},
+  'la flor':{'fr':'la fleur','nl':'de bloem'},'el valle':{'fr':'la vallée','nl':'het dal'},
+  'la hoja':{'fr':'la feuille','nl':'het blad'},'el aire':{"fr":"l'air",'nl':'de lucht'},
+  'la arena':{'fr':'le sable','nl':'het zand'},'la ola':{'fr':'la vague','nl':'de golf'},
+  'el calor':{'fr':'la chaleur','nl':'de hitte'},'la nube':{'fr':'le nuage','nl':'de wolk'},
+  'el rayo':{"fr":"l'éclair",'nl':'de bliksem'},'el mundo':{'fr':'le monde','nl':'de wereld'},
+  'quemar':{'fr':'brûler','nl':'branden'},'derretir':{'fr':'fondre','nl':'smelten'},
+  'explotar':{'fr':'exploser','nl':'exploderen'},'crecer':{'fr':'grandir','nl':'groeien'},
+  'soplar':{'fr':'souffler','nl':'blazen'},'cavar':{'fr':'creuser','nl':'graven'},
+  'la cabeza':{'fr':'la tête','nl':'het hoofd'},'el cuello':{'fr':'le cou','nl':'de nek'},
+  'la cara':{'fr':'le visage','nl':'het gezicht'},'la barba':{'fr':'la barbe','nl':'de baard'},
+  'el pelo':{'fr':'les cheveux','nl':'het haar'},'el ojo':{"fr":"l'œil",'nl':'het oog'},
+  'la boca':{'fr':'la bouche','nl':'de mond'},'el labio':{'fr':'la lèvre','nl':'de lip'},
+  'la nariz':{'fr':'le nez','nl':'de neus'},'el diente':{'fr':'la dent','nl':'de tand'},
+  'la oreja':{"fr":"l'oreille",'nl':'het oor'},'la lágrima':{'fr':'la larme','nl':'de traan'},
+  'la lengua':{'fr':'la langue','nl':'de tong'},'la espalda':{'fr':'le dos','nl':'de rug'},
+  'el dedo del pie':{'fr':'le doigt de pied','nl':'de teen'},'el dedo':{'fr':'le doigt','nl':'de vinger'},
+  'el pie':{'fr':'le pied','nl':'de voet'},'la mano':{'fr':'la main','nl':'de hand'},
+  'la pierna':{'fr':'la jambe','nl':'het been'},'el brazo':{'fr':'le bras','nl':'de arm'},
+  'el hombro':{"fr":"l'épaule",'nl':'de schouder'},'el corazón':{'fr':'le cœur','nl':'het hart'},
+  'la sangre':{'fr':'le sang','nl':'het bloed'},'el cerebro':{'fr':'le cerveau','nl':'de hersenen'},
+  'la rodilla':{'fr':'le genou','nl':'de knie'},'el hueso':{"fr":"l'os",'nl':'het bot'},
+  'la voz':{'fr':'la voix','nl':'de stem'},'la piel':{'fr':'la peau','nl':'de huid'},
+  'el músculo':{'fr':'le muscle','nl':'de spier'},'el pulmón':{'fr':'le poumon','nl':'de long'},
+  'ver':{'fr':'voir','nl':'zien'},'oír':{'fr':'entendre','nl':'horen'},
+  'tocar':{'fr':'toucher','nl':'aanraken'},'saborear':{'fr':'goûter','nl':'proeven'},
+  'sonreír':{'fr':'sourire','nl':'glimlachen'},'sudar':{'fr':'transpirer','nl':'zweten'},
+  'respirar':{'fr':'respirer','nl':'ademen'},'morir':{'fr':'mourir','nl':'sterven'},
+  'el dolor':{'fr':'la douleur','nl':'de pijn'},'la herida':{'fr':'la blessure','nl':'de wond'},
+  'el veneno':{'fr':'le poison','nl':'het gif'},'la droga':{'fr':'la drogue','nl':'de drug'},
+  'el sexo (acto)':{'fr':'le sexe','nl':'seks'},'el sexo (género)':{'fr':'le genre','nl':'het geslacht'},
+  'rojo':{'fr':'rouge','nl':'rood'},'verde':{'fr':'vert','nl':'groen'},
+  'azul':{'fr':'bleu','nl':'blauw'},'amarillo':{'fr':'jaune','nl':'geel'},
+  'marrón':{'fr':'marron','nl':'bruin'},'rosa':{'fr':'rose','nl':'roze'},
+  'naranja':{'fr':'orange','nl':'oranje'},'negro':{'fr':'noir','nl':'zwart'},
+  'blanco':{'fr':'blanc','nl':'wit'},'gris':{'fr':'gris','nl':'grijs'},
+  'el color':{'fr':'la couleur','nl':'de kleur'},'el círculo':{'fr':'le cercle','nl':'de cirkel'},
+  'el cuadrado':{'fr':'le carré','nl':'het vierkant'},'el triángulo':{'fr':'le triangle','nl':'de driehoek'},
+  'el borde':{'fr':'le bord','nl':'de rand'},'la esquina':{'fr':'le coin','nl':'de hoek'},
+  'el punto':{'fr':'le point','nl':'het punt'},'el patrón':{'fr':'le motif','nl':'het patroon'},
+  'la imagen':{"fr":"l'image",'nl':'het beeld'},'la luz':{'fr':'la lumière','nl':'het licht'},
+  'el sonido':{'fr':'le son','nl':'het geluid'},'el agujero':{'fr':'le trou','nl':'het gat'},
+  'el vidrio':{'fr':'le verre','nl':'het glas'},'el metal':{'fr':'le métal','nl':'het metaal'},
+  'la piedra':{'fr':'la pierre','nl':'de steen'},'la madera':{'fr':'le bois','nl':'het hout'},
+  'el oro':{"fr":"l'or",'nl':'het goud'},'la plata':{"fr":"l'argent",'nl':'het zilver'},
+  'el diamante':{'fr':'le diamant','nl':'de diamant'},'el polvo':{'fr':'la poussière','nl':'het stof'},
+  'pintar':{'fr':'peindre','nl':'schilderen'},'dibujar':{'fr':'dessiner','nl':'tekenen'},
+  'doblar':{'fr':'plier','nl':'vouwen'},'mezclar colores':{'fr':'mélanger des couleurs','nl':'kleuren mengen'},
+  'el lunes':{'fr':'lundi','nl':'maandag'},'el martes':{'fr':'mardi','nl':'dinsdag'},
+  'el miércoles':{'fr':'mercredi','nl':'woensdag'},'el jueves':{'fr':'jeudi','nl':'donderdag'},
+  'el viernes':{'fr':'vendredi','nl':'vrijdag'},'el sábado':{'fr':'samedi','nl':'zaterdag'},
+  'el domingo':{'fr':'dimanche','nl':'zondag'},'enero':{'fr':'janvier','nl':'januari'},
+  'febrero':{'fr':'février','nl':'februari'},'marzo':{'fr':'mars','nl':'maart'},
+  'abril':{'fr':'avril','nl':'april'},'mayo':{'fr':'mai','nl':'mei'},
+  'junio':{'fr':'juin','nl':'juni'},'julio':{'fr':'juillet','nl':'juli'},
+  'agosto':{'fr':'août','nl':'augustus'},'septiembre':{'fr':'septembre','nl':'september'},
+  'octubre':{'fr':'octobre','nl':'oktober'},'noviembre':{'fr':'novembre','nl':'november'},
+  'diciembre':{'fr':'décembre','nl':'december'},
+  'el verano':{"fr":"l'été",'nl':'de zomer'},'la primavera':{'fr':'le printemps','nl':'de lente'},
+  'el invierno':{"fr":"l'hiver",'nl':'de winter'},'el otoño':{"fr":"l'automne",'nl':'de herfst'},
+  'el año':{"fr":"l'année",'nl':'het jaar'},'el mes':{'fr':'le mois','nl':'de maand'},
+  'la semana':{'fr':'la semaine','nl':'de week'},'el día':{'fr':'le jour','nl':'de dag'},
+  'la hora':{"fr":"l'heure",'nl':'het uur'},'el minuto':{'fr':'la minute','nl':'de minuut'},
+  'el segundo':{'fr':'la seconde','nl':'de seconde'},'la mañana':{'fr':'le matin','nl':'de ochtend'},
+  'la tarde':{"fr":"l'après-midi",'nl':'de middag'},'la noche':{'fr':'la nuit','nl':'de nacht'},
+  'el tiempo':{'fr':'le temps','nl':'de tijd'},
+  'contar':{'fr':'compter','nl':'tellen'},'esperar':{'fr':'attendre','nl':'wachten'},
+  'despertar':{'fr':'se réveiller','nl':'wakker worden'},'pasar':{'fr':'passer','nl':'voorbijgaan'},
+  'el dinero':{"fr":"l'argent",'nl':'het geld'},'el precio':{'fr':'le prix','nl':'de prijs'},
+  'la guerra':{'fr':'la guerre','nl':'de oorlog'},'la paz':{'fr':'la paix','nl':'de vrede'},
+  'la elección':{"fr":"l'élection",'nl':'de verkiezing'},'el deporte':{'fr':'le sport','nl':'de sport'},
+  'el juego':{'fr':'le jeu','nl':'het spel'},'la ley':{'fr':'la loi','nl':'de wet'},
+  'el contrato':{'fr':'le contrat','nl':'het contract'},'la ciencia':{'fr':'la science','nl':'de wetenschap'},
+  'la tecnología':{'fr':'la technologie','nl':'de technologie'},'la energía':{"fr":"l'énergie",'nl':'de energie'},
+  'la religión':{'fr':'la religion','nl':'de religie'},'la muerte':{'fr':'la mort','nl':'de dood'},
+  'la medicina':{'fr':'la médecine','nl':'de geneeskunde'},'la prisión':{'fr':'la prison','nl':'de gevangenis'},
+  'el ataque':{"fr":"l'attaque",'nl':'de aanval'},'el arma':{"fr":"l'arme",'nl':'het wapen'},
+  'el periódico':{'fr':'le journal','nl':'de krant'},'la revista':{'fr':'le magazine','nl':'het tijdschrift'},
+  'la música':{'fr':'la musique','nl':'de muziek'},'la película':{'fr':'le film','nl':'de film'},
+  'el arte':{"fr":"l'art",'nl':'de kunst'},'la canción':{'fr':'la chanson','nl':'het lied'},
+  'el instrumento':{"fr":"l'instrument",'nl':'het instrument'},'la raza':{'fr':'la race','nl':'het ras'},
+  'el equipo':{"fr":"l'équipe",'nl':'het team'},'la relación':{'fr':'la relation','nl':'de relatie'},
+  'el signo':{'fr':'le signe','nl':'het teken'},'Dios':{'fr':'Dieu','nl':'God'},
+  'comprar':{'fr':'acheter','nl':'kopen'},'vender':{'fr':'vendre','nl':'verkopen'},
+  'pagar':{'fr':'payer','nl':'betalen'},'votar':{'fr':'voter','nl':'stemmen'},
+  'luchar':{'fr':'lutter','nl':'vechten'},'atacar':{'fr':'attaquer','nl':'aanvallen'},
+  'matar':{'fr':'tuer','nl':'doden'},'cantar':{'fr':'chanter','nl':'zingen'},
+  'bailar':{'fr':'danser','nl':'dansen'},
+  'el asesinato':{'fr':'le meurtre','nl':'de moord'},'el cielo (religión)':{'fr':'le paradis','nl':'de hemel (religie)'},
+  'el paraíso':{'fr':'le paradis','nl':'het paradijs'},'el infierno':{"fr":"l'enfer",'nl':'de hel'},
+  'romper':{'fr':'casser','nl':'breken'},'golpear':{'fr':'frapper','nl':'slaan'},
+  'la ciudad':{'fr':'la ville','nl':'de stad'},'la casa':{'fr':'la maison','nl':'het huis'},
+  'el apartamento':{"fr":"l'appartement",'nl':'het appartement'},'la calle':{'fr':'la rue','nl':'de straat'},
+  'el aeropuerto':{"fr":"l'aéroport",'nl':'het vliegveld'},'la estación de tren':{'fr':'la gare','nl':'het treinstation'},
+  'el puente':{'fr':'le pont','nl':'de brug'},'el hotel':{"fr":"l'hôtel",'nl':'het hotel'},
+  'el restaurante':{'fr':'le restaurant','nl':'het restaurant'},'la granja':{'fr':'la ferme','nl':'de boerderij'},
+  'el tribunal':{'fr':'le tribunal','nl':'de rechtbank'},'la escuela':{"fr":"l'école",'nl':'de school'},
+  'la oficina':{'fr':'le bureau','nl':'het kantoor'},'la habitación':{'fr':'la chambre','nl':'de kamer'},
+  'el pueblo':{'fr':'le village','nl':'het dorp'},'la universidad':{"fr":"l'université",'nl':'de universiteit'},
+  'el club':{'fr':'le club','nl':'de club'},'el bar':{'fr':'le bar','nl':'de bar'},
+  'el parque':{'fr':'le parc','nl':'het park'},'el campamento':{'fr':'le camp','nl':'het kamp'},
+  'la tienda':{'fr':'le magasin','nl':'de winkel'},'el teatro':{'fr':'le théâtre','nl':'het theater'},
+  'la biblioteca':{'fr':'la bibliothèque','nl':'de bibliotheek'},'el hospital':{"fr":"l'hôpital",'nl':'het ziekenhuis'},
+  'la iglesia':{"fr":"l'église",'nl':'de kerk'},'el mercado':{'fr':'le marché','nl':'de markt'},
+  'el edificio':{'fr':'le bâtiment','nl':'het gebouw'},'el banco':{'fr':'la banque','nl':'de bank'},
+  'el país':{'fr':'le pays','nl':'het land'},'el espacio exterior':{"fr":"l'espace",'nl':'de ruimte'},
+  'ir':{'fr':'aller','nl':'gaan'},'seguir':{'fr':'suivre','nl':'volgen'},
+  'parar':{'fr':'arrêter','nl':'stoppen'},'caminar':{'fr':'marcher','nl':'wandelen'},
+  'conducir':{'fr':'conduire','nl':'rijden'},'visitar':{'fr':'visiter','nl':'bezoeken'},
+  'el reloj':{"fr":"l'horloge",'nl':'de klok'},'la lámpara':{'fr':'la lampe','nl':'de lamp'},
+  'el ventilador':{'fr':'le ventilateur','nl':'de ventilator'},'el móvil':{'fr':'le portable','nl':'de mobiel'},
+  'la red':{'fr':'le réseau','nl':'het netwerk'},'el ordenador':{"fr":"l'ordinateur",'nl':'de computer'},
+  'el programa':{'fr':'le programme','nl':'het programma'},'el portátil':{"fr":"l'ordinateur portable",'nl':'de laptop'},
+  'la pantalla':{"fr":"l'écran",'nl':'het scherm'},'la cámara':{"fr":"l'appareil photo",'nl':'de camera'},
+  'la televisión':{'fr':'la télévision','nl':'de televisie'},'la radio':{'fr':'la radio','nl':'de radio'},
+  'el cable':{'fr':'le câble','nl':'de kabel'},'la batería':{'fr':'la batterie','nl':'de batterij'},
+  'el teclado':{'fr':'le clavier','nl':'het toetsenbord'},
+  'la impresora':{"fr":"l'imprimante",'nl':'de printer'},'el altavoz':{'fr':'le haut-parleur','nl':'de luidspreker'},
+  'el micrófono':{'fr':'le microphone','nl':'de microfoon'},'los auriculares':{'fr':'les écouteurs','nl':'de koptelefoon'},
+  'el cargador':{'fr':'le chargeur','nl':'de oplader'},'la aplicación':{"fr":"l'application",'nl':'de app'},
+  'el archivo':{'fr':'le fichier','nl':'het bestand'},'el sitio web':{'fr':'le site web','nl':'de website'},
+  'encender':{'fr':'allumer','nl':'aanzetten'},'apagar':{'fr':'éteindre','nl':'uitzetten'},
+  'cargar':{'fr':'charger','nl':'opladen'},'descargar':{'fr':'télécharger','nl':'downloaden'},
+  'buscar':{'fr':'chercher','nl':'zoeken'},'enviar':{'fr':'envoyer','nl':'sturen'},
+  'el tren':{'fr':'le train','nl':'de trein'},'el avión':{"fr":"l'avion",'nl':'het vliegtuig'},
+  'el coche':{'fr':'la voiture','nl':'de auto'},'el camión':{'fr':'le camion','nl':'de vrachtwagen'},
+  'la bicicleta':{'fr':'le vélo','nl':'de fiets'},'el autobús':{'fr':'le bus','nl':'de bus'},
+  'el barco':{'fr':'le bateau','nl':'de boot'},'el buque':{'fr':'le navire','nl':'het schip'},
+  'el neumático':{'fr':'le pneu','nl':'de band'},'la gasolina':{"fr":"l'essence",'nl':'de benzine'},
+  'el motor':{'fr':'le moteur','nl':'de motor'},'el billete de tren':{'fr':'le billet de train','nl':'het treinkaartje'},
+  'el transporte':{'fr':'le transport','nl':'het vervoer'},'el taxi':{'fr':'le taxi','nl':'de taxi'},
+  'el metro':{'fr':'le métro','nl':'de metro'},'el camino':{'fr':'le chemin','nl':'de weg'},
+  'el puerto':{'fr':'le port','nl':'de haven'},'el semáforo':{'fr':'le feu rouge','nl':'het verkeerslicht'},
+  'el mapa':{'fr':'la carte','nl':'de kaart'},'la maleta':{'fr':'la valise','nl':'de koffer'},
+  'el pasaporte':{'fr':'le passeport','nl':'het paspoort'},'el asiento':{'fr':'le siège','nl':'de zitplaats'},
+  'viajar':{'fr':'voyager','nl':'reizen'},'volar (avión)':{'fr':'voler','nl':'vliegen'},
+  'llegar':{'fr':'arriver','nl':'aankomen'},'salir':{'fr':'partir','nl':'vertrekken'},
+  'subir':{'fr':'monter','nl':'instappen'},'bajar':{'fr':'descendre','nl':'uitstappen'},
+  'arriba':{'fr':'en haut','nl':'boven'},'abajo':{'fr':'en bas','nl':'beneden'},
+  'la izquierda':{'fr':'la gauche','nl':'links'},'la derecha':{'fr':'la droite','nl':'rechts'},
+  'recto':{'fr':'tout droit','nl':'rechtdoor'},'el norte':{'fr':'le nord','nl':'het noorden'},
+  'el sur':{'fr':'le sud','nl':'het zuiden'},'el este':{"fr":"l'est",'nl':'het oosten'},
+  'el oeste':{"fr":"l'ouest",'nl':'het westen'},'dentro':{'fr':'dedans','nl':'binnen'},
+  'fuera':{'fr':'dehors','nl':'buiten'},'delante':{'fr':'devant','nl':'voor'},
+  'detrás':{'fr':'derrière','nl':'achter'},'al lado':{'fr':'à côté','nl':'naast'},
+  'cerca':{'fr':'près','nl':'dichtbij'},'lejos':{'fr':'loin','nl':'ver'},
+  'encima':{'fr':'au-dessus','nl':'bovenop'},'debajo':{'fr':'en dessous','nl':'eronder'},
+  'entre':{'fr':'entre','nl':'tussen'},'la dirección':{'fr':'la direction','nl':'de richting'},
+  'el centro':{'fr':'le centre','nl':'het centrum'},
+  'girar':{'fr':'tourner','nl':'draaien'},'cruzar':{'fr':'traverser','nl':'oversteken'},
+  'perderse':{'fr':'se perdre','nl':'verdwalen'},'tirar':{'fr':'tirer','nl':'trekken'},
+  'empujar':{'fr':'pousser','nl':'duwen'},'encontrar':{'fr':'trouver','nl':'vinden'},
+  'uno':{'fr':'un','nl':'één'},'dos':{'fr':'deux','nl':'twee'},
+  'tres':{'fr':'trois','nl':'drie'},'cuatro':{'fr':'quatre','nl':'vier'},
+  'cinco':{'fr':'cinq','nl':'vijf'},'seis':{'fr':'six','nl':'zes'},
+  'siete':{'fr':'sept','nl':'zeven'},'ocho':{'fr':'huit','nl':'acht'},
+  'nueve':{'fr':'neuf','nl':'negen'},'diez':{'fr':'dix','nl':'tien'},
+  'veinte':{'fr':'vingt','nl':'twintig'},'treinta':{'fr':'trente','nl':'dertig'},
+  'cien':{'fr':'cent','nl':'honderd'},'mil':{'fr':'mille','nl':'duizend'},
+  'un millón':{'fr':'un million','nl':'een miljoen'},
+  'primero':{'fr':'premier','nl':'eerste'},'segundo':{'fr':'deuxième','nl':'tweede'},
+  'tercero':{'fr':'troisième','nl':'derde'},
+  'el centímetro':{'fr':'le centimètre','nl':'de centimeter'},
+  'el kilogramo':{'fr':'le kilogramme','nl':'het kilogram'},
+  'la mitad':{'fr':'la moitié','nl':'de helft'},'la temperatura':{'fr':'la température','nl':'de temperatuur'},
+  'el peso':{'fr':'le poids','nl':'het gewicht'},'la fecha':{'fr':'la date','nl':'de datum'},
+  'el número':{'fr':'le nombre','nl':'het getal'},
+  'más':{'fr':'plus','nl':'meer'},'menos':{'fr':'moins','nl':'minder'},
+  'igual':{'fr':'égal','nl':'gelijk'},'el doble':{'fr':'le double','nl':'het dubbele'},
+  'medir':{'fr':'mesurer','nl':'meten'},'calcular':{'fr':'calculer','nl':'berekenen'},
+  'pesar':{'fr':'peser','nl':'wegen'},
+  'la bola':{'fr':'le ballon','nl':'de bal'},'la carrera':{'fr':'la course','nl':'de race'},
+  'el ejercicio':{"fr":"l'exercice",'nl':'de oefening'},
+  'sacudir':{'fr':'secouer','nl':'schudden'},'levantar':{'fr':'soulever','nl':'tillen'},
+  'caer':{'fr':'tomber','nl':'vallen'},'llevar/cargar':{'fr':'porter','nl':'dragen'},
+  'disparar':{'fr':'tirer','nl':'schieten'},'lanzar':{'fr':'lancer','nl':'gooien'},
+  'atrapar':{'fr':'attraper','nl':'vangen'},'marcar':{'fr':'marquer','nl':'scoren'},
+  'entrenar':{"fr":"s'entraîner",'nl':'trainen'},'descansar':{'fr':'se reposer','nl':'rusten'},
+  'trepar':{'fr':'grimper','nl':'klimmen'},
+  'la vocal':{'fr':'la voyelle','nl':'de klinker'},'la consonante':{'fr':'la consonne','nl':'de medeklinker'},
+  'el sustantivo':{'fr':'le substantif','nl':'het zelfstandig naamwoord'},
+  'el verbo':{'fr':'le verbe','nl':'het werkwoord'},
+  'el adjetivo':{"fr":"l'adjectif",'nl':'het bijvoeglijk naamwoord'},
+  'el pedazo':{'fr':'le morceau','nl':'het stuk'},'el artículo':{"fr":"l'article",'nl':'het lidwoord'},
+  'la frase':{'fr':'la phrase','nl':'de zin'},'la palabra':{'fr':'le mot','nl':'het woord'},
+  'el plural':{'fr':'le pluriel','nl':'het meervoud'},'el singular':{'fr':'le singulier','nl':'het enkelvoud'},
+  'masculino':{'fr':'masculin','nl':'mannelijk'},'femenino':{'fr':'féminin','nl':'vrouwelijk'},
+  'el tiempo verbal':{'fr':'le temps','nl':'de werkwoordstijd'},
+  'el presente':{'fr':'le présent','nl':'de tegenwoordige tijd'},
+  'el pasado':{'fr':'le passé','nl':'de verleden tijd'},
+  'el futuro':{'fr':'le futur','nl':'de toekomende tijd'},
+  'sí':{'fr':'oui','nl':'ja'},'no':{'fr':'non','nl':'nee'},
+  'quizás':{'fr':'peut-être','nl':'misschien'},'porque':{'fr':'parce que','nl':'omdat'},
+  'y':{'fr':'et','nl':'en'},'o':{'fr':'ou','nl':'of'},'pero':{'fr':'mais','nl':'maar'}
+};
+
+function getVocabForLang(arena, langCode) {
+  if (langCode === 'es') {
+    return arena.vocab.map(v => ({ source: v.es, target: v.de, key: v.es }));
+  }
+  return arena.vocab.map(v => {
+    const t = TRANSLATIONS[v.es]?.[langCode];
+    return t ? { source: t, target: v.de, key: v.es } : null;
+  }).filter(Boolean);
+}
+
+// ════════════════════════════════════════════════════════════
+// WORD PROGRESS TIERS
+// ════════════════════════════════════════════════════════════
+
+const TIER = { UNSEEN: 0, SILBER: 1, BRONZE: 2, GOLD: 3 };
+const TIER_LABEL = { 0: '', 1: '🥈', 2: '🥉', 3: '🥇' };
+const TIER_COLOR = { 0: 'var(--text-dim)', 1: '#adb5bd', 2: '#cd7f32', 3: '#f2c94c' };
+
+// ════════════════════════════════════════════════════════════
+// GAME STATE
+// ════════════════════════════════════════════════════════════
+
+const DEFAULT_LANG_STATE = () => ({ starter:null, level:1, xp:0, xpToNext:100, clearedArenas:[], wordProgress:{} });
+
+let state = { languages:{}, activeLang:null, currentArena:null, prevScreen:'map' };
+
+function activeLang() { return state.languages[state.activeLang] || DEFAULT_LANG_STATE(); }
+function setActiveLang(data) { state.languages[state.activeLang] = data; }
+function getTier(esKey) { return activeLang().wordProgress[esKey]?.correct || 0; }
+function getProgressed() { return Object.values(activeLang().wordProgress); }
+
+// ════════════════════════════════════════════════════════════
+// BATTLE STATE
+// ════════════════════════════════════════════════════════════
+
+let battle = { questions:[], current:0, playerHP:100, enemyHP:100, results:[], upgradedThisSession:[] };
+
+// ════════════════════════════════════════════════════════════
+// PERSISTENCE
+// ════════════════════════════════════════════════════════════
+
+function saveState() {
+  try { localStorage.setItem('vocabulario_v3_state', JSON.stringify(state)); } catch(e) {}
+}
+function loadState() {
+  try {
+    const s = localStorage.getItem('vocabulario_v3_state');
+    if (s) { state = {...state, ...JSON.parse(s)}; return true; }
+  } catch(e) {}
+  return false;
+}
+
+// ════════════════════════════════════════════════════════════
+// SCREEN MANAGEMENT
+// ════════════════════════════════════════════════════════════
+
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  if (name === 'map') { closeTeamDropdown(); renderMap(); }
+  if (name === 'language') renderLanguageScreen();
+}
+
+// ════════════════════════════════════════════════════════════
+// SVG RENDERING
+// ════════════════════════════════════════════════════════════
+
+function renderSprite(svgEl, type, level) {
+  if (!svgEl || !SPRITES[type]) return;
+  svgEl.innerHTML = SPRITES[type][level] || SPRITES[type][1];
+}
+function renderEnemy(svgEl, arenaId) {
+  if (!svgEl || !ENEMY_SPRITES[arenaId]) return;
+  svgEl.innerHTML = ENEMY_SPRITES[arenaId];
+}
+
+// ════════════════════════════════════════════════════════════
+// LANGUAGE SELECTION
+// ════════════════════════════════════════════════════════════
+
+let selectedLanguage = null;
+
+function renderLanguageScreen() {
+  selectedLanguage = null;
+  document.getElementById('btn-confirm-lang').disabled = true;
+  Object.keys(LANGUAGES).forEach(code => {
+    document.getElementById('langcard-' + code)?.classList.remove('selected');
+    const badge = document.getElementById('langbadge-' + code);
+    if (badge) badge.style.display = state.languages[code]?.starter ? 'inline-block' : 'none';
+  });
+}
+
+function selectLanguage(code) {
+  selectedLanguage = code;
+  document.querySelectorAll('.lang-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('langcard-' + code).classList.add('selected');
+  document.getElementById('btn-confirm-lang').disabled = false;
+}
+
+function confirmLanguage() {
+  if (!selectedLanguage) return;
+  state.activeLang = selectedLanguage;
+  if (state.languages[selectedLanguage]?.starter) { saveState(); showScreen('map'); return; }
+  const lang = LANGUAGES[selectedLanguage];
+  document.getElementById('starter-screen-title').textContent = 'WÄHLE DEINEN\nBEGLEITER';
+  document.getElementById('starter-screen-sub').textContent = `Dein Begleiter für ${lang.flag} ${lang.name}.`;
+  document.querySelectorAll('.starter-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('btn-confirm-starter').disabled = true;
+  selectedStarter = null;
+  showScreen('starter');
+}
+
+// ════════════════════════════════════════════════════════════
+// STARTER SELECTION
+// ════════════════════════════════════════════════════════════
+
+let selectedStarter = null;
+
+function initStarterPreviews() {
+  ['ignis','aqua','volta','drako','sylva','luma','petra','glacia'].forEach(s => {
+    renderSprite(document.getElementById('svg-' + s + '-preview'), s, 1);
+  });
+}
+
+function selectStarter(type) {
+  selectedStarter = type;
+  document.querySelectorAll('.starter-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('card-' + type).classList.add('selected');
+  document.getElementById('btn-confirm-starter').disabled = false;
+}
+
+function confirmStarter() {
+  if (!selectedStarter || !state.activeLang) return;
+  state.languages[state.activeLang] = { ...DEFAULT_LANG_STATE(), starter: selectedStarter };
+  saveState();
+  showScreen('map');
+}
+
+// ════════════════════════════════════════════════════════════
+// TEAM DROPDOWN
+// ════════════════════════════════════════════════════════════
+
+function toggleTeamDropdown() {
+  const dd = document.getElementById('team-dropdown');
+  if (dd.classList.contains('open')) { closeTeamDropdown(); return; }
+  renderTeamDropdown();
+  dd.classList.add('open');
+}
+
+function closeTeamDropdown() {
+  document.getElementById('team-dropdown').classList.remove('open');
+}
+
+function renderTeamDropdown() {
+  const dd = document.getElementById('team-dropdown');
+  let html = '';
+  Object.entries(state.languages).forEach(([code, data]) => {
+    if (!data?.starter) return;
+    const l = LANGUAGES[code];
+    const isActive = code === state.activeLang;
+    html += `<div class="team-entry${isActive ? ' active-lang' : ''}" onclick="switchLanguage('${code}')">
+      <svg class="team-entry-sprite" viewBox="0 0 48 48" id="team-sprite-${code}"></svg>
+      <div class="team-entry-info">
+        <div class="team-entry-name">${data.starter.toUpperCase()} ${l.flag}</div>
+        <div class="team-entry-lang">${l.name} · LV ${data.level}</div>
+      </div>
+      ${isActive ? '<span style="font-size:10px;color:var(--accent-gold)">▶ aktiv</span>' : ''}
+    </div>`;
+  });
+  const used = Object.keys(state.languages).filter(c => state.languages[c]?.starter);
+  const available = Object.keys(LANGUAGES).filter(c => !used.includes(c));
+  if (available.length > 0) html += `<div class="team-entry team-entry-add" onclick="addNewLanguage()">＋ Neue Sprache</div>`;
+  dd.innerHTML = html;
+  Object.entries(state.languages).forEach(([code, data]) => {
+    if (!data?.starter) return;
+    const el = document.getElementById('team-sprite-' + code);
+    if (el) renderSprite(el, data.starter, data.level);
+  });
+}
+
+function switchLanguage(code) {
+  state.activeLang = code;
+  saveState();
+  closeTeamDropdown();
+  renderMap();
+}
+
+function addNewLanguage() {
+  closeTeamDropdown();
+  showScreen('language');
+}
+
+// ════════════════════════════════════════════════════════════
+// MAP
+// ════════════════════════════════════════════════════════════
+
+function renderMap() {
+  const langData = activeLang();
+  const langInfo = LANGUAGES[state.activeLang] || {};
+  renderSprite(document.getElementById('svg-companion-map'), langData.starter, langData.level);
+  document.getElementById('companion-name-map').textContent = `${langData.starter?.toUpperCase() || '—'} ${langInfo.flag || ''}`;
+  document.getElementById('companion-level-map').textContent = 'LV ' + langData.level;
+  const pct = Math.floor((langData.xp / langData.xpToNext) * 100);
+  document.getElementById('xp-bar').style.width = pct + '%';
+  document.getElementById('xp-label').textContent = langData.xp + ' / ' + langData.xpToNext + ' XP';
+  document.getElementById('map-title').textContent = `— ${langInfo.name?.toUpperCase() || ''} · ARENEN —`;
+
+  const grid = document.getElementById('arena-grid');
+  grid.innerHTML = '';
+  ARENAS.forEach((arena, i) => {
+    const isCleared = langData.clearedArenas.includes(arena.id);
+    const unlocked = i < 2 || langData.clearedArenas.includes(ARENAS[i-1].id);
+    const gold = arena.vocab.filter(v => getTier(v.es) >= TIER.GOLD).length;
+    const seen = arena.vocab.filter(v => getTier(v.es) >= TIER.SILBER).length;
+    const total = arena.vocab.length;
+    const card = document.createElement('div');
+    card.className = 'arena-card' + (isCleared ? ' cleared' : '') + (!unlocked ? ' locked' : '');
+    card.style.borderColor = unlocked ? arena.color + '44' : '';
+    card.innerHTML = `
+      <span class="arena-emoji">${arena.emoji}</span>
+      <div class="arena-name">${arena.name.toUpperCase()}</div>
+      <div class="arena-progress" style="color:${arena.color}">🥇 ${gold}/${total}</div>
+      ${seen > 0 && seen < total ? `<div style="font-size:10px;color:var(--text-dim)">gesehen: ${seen}</div>` : ''}
+      ${!unlocked ? '<div style="font-size:11px;color:var(--text-dim);margin-top:4px">🔒 Gesperrt</div>' : ''}
+    `;
+    if (unlocked) card.onclick = () => startBattle(arena);
+    grid.appendChild(card);
+  });
+}
+
+// ════════════════════════════════════════════════════════════
+// BATTLE
+// ════════════════════════════════════════════════════════════
+
+function startBattle(arena) {
+  state.currentArena = arena.id;
+  battle.playerHP = 100; battle.enemyHP = 100; battle.results = []; battle.upgradedThisSession = [];
+  const vocab = getVocabForLang(arena, state.activeLang);
+  const notGold = vocab.filter(v => getTier(v.key) < TIER.GOLD);
+  const gold = vocab.filter(v => getTier(v.key) >= TIER.GOLD);
+  shuffle(notGold); shuffle(gold);
+  const pool = [...notGold, ...gold].slice(0, 6);
+  const langInfo = LANGUAGES[state.activeLang] || {};
+  const srcName = langInfo.name || 'Fremdsprache';
+  battle.questions = pool.map(pair => ({ pair, direction: Math.random() < 0.5 ? 'src-de' : 'de-src', srcName }));
+  battle.current = 0;
+  const langData = activeLang();
+  document.getElementById('battle-enemy-name').textContent = arena.name.toUpperCase();
+  document.getElementById('battle-player-name').textContent = `${langData.starter?.toUpperCase() || 'DU'} ${langInfo.flag || ''}`;
+  renderEnemy(document.getElementById('svg-enemy'), arena.id);
+  renderSprite(document.getElementById('svg-player-battle'), langData.starter, langData.level);
+  updateHPBars(); renderProgressDots(); showScreen('battle'); renderBattleQuestion();
+}
+
+function renderProgressDots() {
+  document.getElementById('progress-dots').innerHTML = battle.questions.map((_, i) => {
+    let cls = 'dot';
+    if (i < battle.results.length) cls += battle.results[i] ? ' correct' : ' wrong';
+    else if (i === battle.current) cls += ' filled';
+    return `<div class="${cls}"></div>`;
+  }).join('');
+}
+
+function renderBattleQuestion() {
+  if (battle.current >= battle.questions.length) { endBattle(); return; }
+  const q = battle.questions[battle.current];
+  const isSrcDe = q.direction === 'src-de';
+  const questionWord = isSrcDe ? q.pair.source : q.pair.target;
+  const correctAnswer = isSrcDe ? q.pair.target : q.pair.source;
+  const dirLabel = isSrcDe ? `${q.srcName} → Deutsch` : `Deutsch → ${q.srcName}`;
+  const tier = getTier(q.pair.key);
+  document.getElementById('battle-word').textContent = questionWord;
+  document.getElementById('battle-direction').textContent = `${dirLabel}  ${TIER_LABEL[tier] || ''}`;
+
+  // Set up speech: only speak the foreign-language word, not German
+  const isSourceForeign = isSrcDe; // source = foreign lang, target = Deutsch
+  if (isSourceForeign) {
+    currentSpeechWord = questionWord;
+    currentSpeechLang = state.activeLang;
+  } else {
+    // Deutsch word shown — speak the foreign translation instead (as hint)
+    currentSpeechWord = q.pair.source;
+    currentSpeechLang = state.activeLang;
+  }
+  updateSpeakerBtn();
+
+  // Auto-speak the foreign word
+  // When shown ES→DE or FR→DE: speak the foreign word directly
+  // When shown DE→FR: speak nothing automatically (would give away the answer)
+  if (isSourceForeign) {
+    speakWord(currentSpeechWord, currentSpeechLang);
+  }
+
+  const arena = ARENAS.find(a => a.id === state.currentArena);
+  const vocab = getVocabForLang(arena, state.activeLang);
+  const wrongPool = vocab.filter(v => v.key !== q.pair.key).map(v => isSrcDe ? v.target : v.source);
+  shuffle(wrongPool);
+  const options = shuffle([correctAnswer, ...wrongPool.slice(0, 3)]);
+  document.getElementById('choices-grid').innerHTML = options.map(opt =>
+    `<button class="choice-btn" onclick="answerQuestion('${escStr(opt)}', '${escStr(correctAnswer)}')">${opt}</button>`
+  ).join('');
+  renderProgressDots();
+}
+
+function escStr(s) { return s.replace(/\\/g, '\\\\').replace(/'/g, "\\'"); }
+
+function answerQuestion(chosen, correct) {
+  const isCorrect = chosen === correct;
+  battle.results.push(isCorrect);
+  document.querySelectorAll('.choice-btn').forEach(btn => {
+    btn.disabled = true;
+    if (btn.textContent === correct) btn.classList.add('correct');
+    else if (btn.textContent === chosen && !isCorrect) btn.classList.add('wrong');
+  });
+  const q = battle.questions[battle.current];
+  const langData = activeLang();
+  if (isCorrect) {
+    battle.enemyHP = Math.max(0, battle.enemyHP - Math.floor(100 / battle.questions.length));
+    document.getElementById('svg-enemy').classList.add('shake');
+    setTimeout(() => document.getElementById('svg-enemy').classList.remove('shake'), 400);
+    const key = q.pair.key;
+    const prev = langData.wordProgress[key] || { correct: 0 };
+    const newCorrect = Math.min(TIER.GOLD, prev.correct + 1);
+    const upgraded = newCorrect > prev.correct;
+    langData.wordProgress[key] = { correct: newCorrect };
+    setActiveLang(langData);
+    if (upgraded) { battle.upgradedThisSession.push({ key, newTier: newCorrect }); showCaughtBanner(newCorrect); }
+  } else {
+    battle.playerHP = Math.max(0, battle.playerHP - Math.floor(100 / battle.questions.length));
+    document.getElementById('svg-player-battle').classList.add('shake');
+    setTimeout(() => document.getElementById('svg-player-battle').classList.remove('shake'), 400);
+  }
+  updateHPBars();
+  setTimeout(() => { battle.current++; renderProgressDots(); renderBattleQuestion(); }, 1200);
+}
+
+function updateHPBars() {
+  const eBar = document.getElementById('enemy-hp-bar');
+  const pBar = document.getElementById('player-hp-bar');
+  eBar.style.width = battle.enemyHP + '%'; pBar.style.width = battle.playerHP + '%';
+  const getColor = hp => hp > 50 ? 'var(--hp-green)' : hp > 20 ? 'var(--hp-yellow)' : 'var(--hp-red)';
+  eBar.style.background = getColor(battle.enemyHP); pBar.style.background = getColor(battle.playerHP);
+}
+
+function endBattle() {
+  const correct = battle.results.filter(Boolean).length;
+  const total = battle.questions.length;
+  const won = correct >= Math.ceil(total / 2);
+  const langData = activeLang();
+  const xpGain = correct * 15;
+  const oldLevel = langData.level;
+  langData.xp += xpGain;
+  let evolved = false;
+  while (langData.xp >= langData.xpToNext) {
+    langData.xp -= langData.xpToNext;
+    langData.xpToNext = Math.floor(langData.xpToNext * 1.5);
+    if (langData.level < 3) { langData.level++; evolved = true; }
+  }
+  if (won && !langData.clearedArenas.includes(state.currentArena)) langData.clearedArenas.push(state.currentArena);
+  setActiveLang(langData); saveState();
+  const newGold = battle.upgradedThisSession.filter(u => u.newTier === TIER.GOLD).length;
+  const newBronze = battle.upgradedThisSession.filter(u => u.newTier === TIER.BRONZE).length;
+  const newSilber = battle.upgradedThisSession.filter(u => u.newTier === TIER.SILBER).length;
+  const stars = correct >= total ? '★★★' : correct >= total - 1 ? '★★☆' : correct >= total / 2 ? '★☆☆' : '☆☆☆';
+  document.getElementById('result-icon').textContent = won ? '🏆' : '💪';
+  document.getElementById('result-title').textContent = won ? 'SIEG!' : 'WEITER!';
+  document.getElementById('result-stars').textContent = stars;
+  let summary = `${correct}/${total} richtig · +${xpGain} XP`;
+  if (newGold) summary += ` · 🥇 ${newGold} gefangen`;
+  if (newBronze) summary += ` · 🥉 ${newBronze} bekannt`;
+  if (newSilber) summary += ` · 🥈 ${newSilber} gesichtet`;
+  document.getElementById('result-subtitle').textContent = summary;
+  const evoBox = document.getElementById('evolution-box');
+  if (evolved && oldLevel < 4) {
+    evoBox.style.display = 'block';
+    renderSprite(document.getElementById('evo-before'), langData.starter, oldLevel);
+    renderSprite(document.getElementById('evo-after'), langData.starter, langData.level);
+  } else { evoBox.style.display = 'none'; }
+  showScreen('result');
+}
+
+function exitBattle() { saveState(); showScreen('map'); }
+
+// ════════════════════════════════════════════════════════════
+// POKÉDEX
+// ════════════════════════════════════════════════════════════
+
+let activeFilter = 'all';
+
+function showPokedex() {
+  state.prevScreen = document.querySelector('.screen.active').id.replace('screen-', '');
+  renderPokedex(); showScreen('pokedex');
+}
+function closePokedex() { showScreen(state.prevScreen || 'map'); }
+
+function renderPokedex() {
+  const langCode = state.activeLang;
+  const langInfo = LANGUAGES[langCode] || {};
+  const totalVocab = ARENAS.reduce((s, a) => s + getVocabForLang(a, langCode).length, 0);
+  const gold = getProgressed().filter(w => w.correct >= TIER.GOLD).length;
+  document.getElementById('pokedex-count').textContent = `${langInfo.flag || ''} 🥇 ${gold} / ${totalVocab}`;
+  const filterEl = document.getElementById('pokedex-filter');
+  filterEl.innerHTML = ['all', ...ARENAS.map(a => a.id)].map(cat => {
+    const label = cat === 'all' ? 'Alle' : ARENAS.find(a => a.id === cat)?.name || cat;
+    return `<div class="filter-chip${activeFilter === cat ? ' active' : ''}" onclick="setFilter('${cat}')">${label}</div>`;
+  }).join('');
+  const arenaList = activeFilter === 'all' ? ARENAS : ARENAS.filter(a => a.id === activeFilter);
+  const vocabList = arenaList.flatMap(a => getVocabForLang(a, langCode).map(v => ({...v, arenaId: a.id})));
+  const grid = document.getElementById('pokedex-grid');
+  if (vocabList.length === 0) {
+    grid.innerHTML = '<div style="grid-column:span 2;text-align:center;padding:40px 20px;color:var(--text-dim);font-size:13px">Keine Wörter gefunden.</div>';
+    return;
+  }
+  grid.innerHTML = vocabList.map(w => {
+    const tier = getTier(w.key);
+    const arenaData = ARENAS.find(a => a.id === w.arenaId);
+    const unseen = tier === TIER.UNSEEN;
+    const speakable = !unseen && speechSupported;
+    return `<div class="vocab-card" style="opacity:${unseen ? '0.35' : '1'}">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px">
+        <div class="vocab-es" style="color:${TIER_COLOR[tier]}">${w.source}</div>
+        <div style="display:flex;align-items:center;gap:4px">
+          ${speakable ? `<button class="speaker-btn" style="font-size:14px;padding:2px 4px" onclick="speakWord('${escStr(w.source)}','${state.activeLang}')" title="Aussprache">🔊</button>` : ''}
+          <span style="font-size:14px">${TIER_LABEL[tier]}</span>
+        </div>
+      </div>
+      <div class="vocab-de">${unseen ? '???' : w.target}</div>
+      <span class="vocab-category" style="color:${arenaData?.color || 'var(--text-dim)'}">${arenaData?.emoji || ''} ${arenaData?.name || w.arenaId}</span>
+    </div>`;
+  }).join('');
+}
+
+function setFilter(cat) { activeFilter = cat; renderPokedex(); }
+
+// ════════════════════════════════════════════════════════════
+// CAUGHT BANNER
+// ════════════════════════════════════════════════════════════
+
+let bannerTimeout;
+function showCaughtBanner(tier) {
+  const el = document.getElementById('caughtBanner');
+  el.textContent = {1:'🥈 GESICHTET!', 2:'🥉 BEKANNT!', 3:'🥇 GEFANGEN!'}[tier] || '✨ FORTSCHRITT!';
+  el.classList.add('show');
+  clearTimeout(bannerTimeout);
+  bannerTimeout = setTimeout(() => el.classList.remove('show'), 1500);
+}
+
+// ════════════════════════════════════════════════════════════
+// SPEECH SYNTHESIS
+// ════════════════════════════════════════════════════════════
+
+const LANG_SPEECH_CODE = { es: 'es-ES', fr: 'fr-FR', nl: 'nl-NL' };
+
+// Track the word to speak for the current question
+let currentSpeechWord = null;
+let currentSpeechLang = null;
+let speechSupported = 'speechSynthesis' in window;
+
+function speakWord(text, langCode) {
+  if (!speechSupported || !text) return;
+
+  // Only speak if the current language has speech enabled
+  const speechLang = LANG_SPEECH_CODE[langCode];
+  if (!speechLang) return;
+
+  window.speechSynthesis.cancel();
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = speechLang;
+  utterance.rate = 0.9;
+  utterance.pitch = 1;
+
+  const btn = document.getElementById('speaker-btn');
+
+  utterance.onstart = () => { if (btn) btn.classList.add('speaking'); };
+  utterance.onend = () => { if (btn) btn.classList.remove('speaking'); };
+  utterance.onerror = () => { if (btn) btn.classList.remove('speaking'); };
+
+  window.speechSynthesis.speak(utterance);
+}
+
+function speakCurrentWord() {
+  if (currentSpeechWord) speakWord(currentSpeechWord, currentSpeechLang);
+}
+
+function updateSpeakerBtn() {
+  const btn = document.getElementById('speaker-btn');
+  if (!btn) return;
+  if (!speechSupported) {
+    btn.classList.add('no-speech');
+    btn.title = 'Aussprache nicht verfügbar';
+  } else {
+    btn.classList.remove('no-speech');
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+// UTILITIES
+// ════════════════════════════════════════════════════════════
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+document.addEventListener('click', (e) => {
+  if (!document.getElementById('map-header')?.contains(e.target)) closeTeamDropdown();
+});
+
+// ════════════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════════════
+
+function init() {
+  initStarterPreviews();
+  const hasSave = loadState();
+  // Migrate v2 save
+  try {
+    const old = localStorage.getItem('vocabulario_v2_state');
+    if (old && !state.activeLang) {
+      const p = JSON.parse(old);
+      if (p.starter) {
+        state.languages.es = { starter:p.starter, level:p.level||1, xp:p.xp||0, xpToNext:p.xpToNext||100, clearedArenas:p.clearedArenas||[], wordProgress:p.wordProgress||{} };
+        state.activeLang = 'es';
+        saveState();
+      }
+    }
+  } catch(e) {}
+  if (state.activeLang && state.languages[state.activeLang]?.starter) showScreen('map');
+  else showScreen('title');
+}
+
+init();
+</script>
+</body>
+</html>
